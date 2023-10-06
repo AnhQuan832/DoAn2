@@ -1,0 +1,82 @@
+<div
+  class="login_container w-100 h-100 d-flex justify-content-center align-items-center p-4"
+>
+  <form
+    class="login_container_form d-flex flex-column col-12 col-sm-6 col-lg-3 p-4 rounded-2"
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+  >
+    <img
+      class="mt-4 mx-auto w-50"
+      src="https://i.ibb.co/3h7wrgX/logo-removebg-preview.png"
+      alt="Logo"
+    />
+
+    <span class="my-4">
+      <h6>Email</h6>
+
+      <input
+        class="inputtext w-100 ps-1 mt-1 form-control"
+        name="emailInput"
+        type="email"
+        pInputText
+        formControlName="userEmail"
+      />
+      <div
+        *ngIf="
+          loginForm.get('userEmail')?.invalid &&
+          (loginForm.get('userEmail')?.dirty ||
+            loginForm.get('userEmail')?.touched)
+        "
+      >
+        <small class="text-danger" *ngIf="loginForm.get('userEmail')?.errors"
+          >Email chưa đúng</small
+        >
+      </div>
+    </span>
+    <span class="mb-1">
+      <h6>Password</h6>
+      <p-password
+        class="inputtext w-100 mt-1 form-control"
+        [toggleMask]="true"
+        formControlName="userPassword"
+        [feedback]="false"
+      >
+      </p-password>
+      <div
+        *ngIf="
+          (loginForm.get('userPassword')?.invalid &&
+            (loginForm.get('userPassword')?.dirty ||
+              loginForm.get('userPassword')?.touched)) ||
+          isWrongLogin
+        "
+      >
+        <small class="text-danger" *ngIf="loginForm.get('userPassword')?.errors"
+          >Bạn chưa nhập mật khẩu</small
+        >
+        <small class="text-danger" *ngIf="isWrongLogin"
+          >Email hoặc mật khẩu chưa đúng</small
+        >
+      </div>
+    </span>
+    <a class="text-end" routerLink="/forgot-password">Forgot password</a>
+    <div class="btn-container d-flex justify-content-center pt-4">
+      <button
+        type="submit"
+        class="btn btn-primary w-100 text-nowrap rounded-3"
+        [disabled]="loginForm.invalid"
+      >
+        Sign in
+      </button>
+    </div>
+    <p class="mx-auto my-2">
+      No account yet? <a routerLink="/register">Register for free</a>
+    </p>
+    <p-divider class="mx-auto mb-2">or</p-divider>
+    <asl-google-signin-button
+      class="mx-auto"
+      type="standard"
+      size="large"
+    ></asl-google-signin-button>
+  </form>
+</div>
