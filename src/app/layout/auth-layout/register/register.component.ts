@@ -20,9 +20,6 @@ export class RegisterComponent {
   ) { }
 
   isSubmitted = false;
-  isWrongReg = false;
-  isWrongEmail = false;
-  isNotVerified = false;
 
   registerForm = this.builder.group({
     userEmail: this.builder.control('', [Validators.required, Validators.email]),
@@ -37,12 +34,17 @@ export class RegisterComponent {
 
   registerNewUser() {
     this.isSubmitted = true;
-    this.isWrongReg = false;
-    this.authService.registerNewUser(this.registerForm.value);
+    if (!this.registerForm.valid)
+      return
+    this.authService.registerNewUser(this.registerForm.value).subscribe({
+      next: (response) => console.log(response),
+      error: (err) => console.log(`error: ${err}`)
+    }
+    )
   }
 
   clearErrorNotification() {
-    console.log("cleared")
+    this.isSubmitted = false;
   }
 
   validatePassword(control: AbstractControl): { [key: string]: boolean } | null {

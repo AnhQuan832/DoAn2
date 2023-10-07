@@ -22,15 +22,15 @@ export class AuthService {
 
   registerNewUser(inputData) {
     console.log(inputData)
-    // return (this.http.post(this.baseUrl + '/userRegister', {
-    //   userEmail: inputData.userEmail,
-    //   userPassword: inputData.userPassword,
-    //   userFirstName: this.getFirstName(inputData.userName),
-    //   userLastName: this.getLastName(inputData.userName),
-    //   userPhoneNumber: inputData.phoneNumber,
-    //   isSocial: false,
-    //   userAvatar: ""
-    // }));
+    return (this.http.post(this.baseUrl + '/userRegister', {
+      userEmail: inputData.userEmail,
+      userPassword: inputData.userPassword,
+      userFirstName: this.getFirstName(inputData.userName),
+      userLastName: this.getLastName(inputData.userName),
+      userPhoneNumber: inputData.phoneNumber,
+      isSocial: false,
+      userAvatar: ""
+    }));
   }
 
   async sendOTPVerifyEmail(inputData: any): Promise<any> {
