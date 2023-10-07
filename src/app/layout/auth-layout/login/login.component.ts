@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/service/auth.service';
 
 
 @Component({
@@ -10,17 +11,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  loginWithgg: any;
-  private accessToken = '';
-  userData: any;
   isSubmitted = false;
   isWrongLogin = false;
   constructor(
     // private socialLoginService: SocialAuthService,
     private builder: FormBuilder,
-    // private fileUpload: UploadFileService,
-    // private authService: AuthService,
+    private authService: AuthService,
     private router: Router,
+
     // private userService: UserService,
   ) { }
 
@@ -49,24 +47,14 @@ export class LoginComponent {
     //   });
   }
 
-  async login() {
-    // this.isSubmitted = true;
-    // this.isWrongLogin = false
-    // await this.authService.logIn(this.loginForm.value).then(
-    //   (response) => {
-    //     this.setLocalUser(response)
-    //     const roles = response.userRoles
-    //     if (roles.includes('ROLE_SHELTER_MANAGER')) {
-    //       this.router.navigate(['/shelter/landing'])
-    //     }
-    //     else {
-    //       this.router.navigate(['/user/landing'])
-    //     }
-    //   },
+  login() {
+    this.authService.login(this.loginForm.value.userEmail, this.loginForm.value.userPassword).subscribe({
+      next: (user) => console.log(user),
+      error: (err) => console.log(err),
+      complete: () => console.log('complete')
+    })
 
-    // ).catch(err => {
-    //   this.isWrongLogin = true;
-    // });
+
   }
 
   // getAccessToken(): void {
@@ -91,6 +79,10 @@ export class LoginComponent {
   //   localStorage.setItem("userAvatar", inputData.userAvatar)
 
   // }
+
+  clearErrorNotification() {
+
+  }
 
   emailValidator(exceptionEmail: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {

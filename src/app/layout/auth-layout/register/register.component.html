@@ -1,0 +1,150 @@
+<div
+  class="login_container w-100 h-100 d-flex justify-content-center align-items-center p-4"
+>
+  <form
+    class="login_container_form d-flex flex-column col-12 col-sm-6 col-lg-3 p-4 rounded-2"
+    [formGroup]="registerForm"
+    (ngSubmit)="registerNewUser()"
+    (focus)="clearErrorNotification()"
+  >
+    <img
+      class="my-4 mx-auto w-75"
+      src="https://i.ibb.co/3h7wrgX/logo-removebg-preview.png"
+      alt="Logo"
+    />
+
+    <span class="my-2">
+      <h6>Email</h6>
+
+      <input
+        class="inputtext w-100 ps-1 mt-1 form-control"
+        name="emailInput"
+        type="email"
+        pInputText
+        formControlName="userEmail"
+      />
+      <div
+        *ngIf="
+          registerForm.get('userEmail')?.invalid &&
+          (registerForm.get('userEmail')?.dirty ||
+            registerForm.get('userEmail')?.touched)
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="registerForm.get('userEmail')?.hasError"
+          >Email chưa đúng</small
+        >
+      </div>
+    </span>
+    <span class="mb-1">
+      <h6>Password</h6>
+      <p-password
+        class="inputtext w-100 mt-1 form-control"
+        [toggleMask]="true"
+        formControlName="userPassword"
+        [feedback]="false"
+      >
+      </p-password>
+      <!-- <div
+        *ngIf="
+          (registerForm.get('userPassword')?.invalid &&
+            (registerForm.get('userPassword')?.dirty ||
+              registerForm.get('userPassword')?.touched)) ||
+          isWrongReg
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="registerForm.get('userPassword')?.hasError"
+          >Bạn chưa nhập mật khẩu</small
+        >
+        <small class="text-danger" *ngIf="isWrongReg"
+          >Email hoặc mật khẩu chưa đúng</small
+        >
+      </div> -->
+      <small
+        class="text-danger"
+        *ngIf="registerForm.get('userPassword')?.hasError('required')"
+      >
+        Password is required.
+      </small>
+      <small
+        class="text-danger"
+        *ngIf="registerForm.get('userPassword')?.hasError('minlength')"
+      >
+        Password must be at least 6 characters long.
+      </small>
+      <small
+        class="text-danger"
+        *ngIf="
+          registerForm.get('userPassword')?.hasError('passwordRequirements')
+        "
+      >
+        Password must contain at least 1 letter and 1 number.
+      </small>
+    </span>
+
+    <span class="my-2">
+      <h6>Fullname</h6>
+
+      <input
+        class="inputtext w-100 ps-1 mt-1 form-control"
+        name="emailInput"
+        pInputText
+        formControlName="userFullname"
+      />
+      <div
+        *ngIf="
+          registerForm.get('userFullname')?.invalid &&
+          (registerForm.get('userFullname')?.dirty ||
+            registerForm.get('userFullname')?.touched)
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="registerForm.get('userFullname')?.hasError"
+          >Email chưa đúng</small
+        >
+      </div>
+    </span>
+    <span class="my-2">
+      <h6>Phone number</h6>
+
+      <input
+        class="inputtext w-100 ps-1 mt-1 form-control"
+        name="emailInput"
+        type="email"
+        pInputText
+        formControlName="userPhoneNumber"
+      />
+      <div
+        *ngIf="
+          registerForm.get('userPhoneNumber')?.invalid &&
+          (registerForm.get('userPhoneNumber')?.dirty ||
+            registerForm.get('userPhoneNumber')?.touched)
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="registerForm.get('userPhoneNumber')?.hasError"
+          >Email chưa đúng</small
+        >
+      </div>
+    </span>
+    <div class="btn-container d-flex justify-content-center pt-4">
+      <button type="submit" class="btn btn-primary w-100 text-nowrap rounded-3">
+        Create account
+      </button>
+    </div>
+    <p class="mx-auto my-2">
+      <a routerLink="/register">Back to login</a>
+    </p>
+    <p-divider class="mx-auto mb-2">or</p-divider>
+    <asl-google-signin-button
+      class="mx-auto"
+      type="standard"
+      size="large"
+    ></asl-google-signin-button>
+  </form>
+</div>

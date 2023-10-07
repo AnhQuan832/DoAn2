@@ -18,11 +18,15 @@ import {
   GoogleLoginProvider, SocialLoginModule, SocialAuthServiceConfig
 } from '@abacritt/angularx-social-login';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { RegisterComponent } from './register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    RegisterComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,
