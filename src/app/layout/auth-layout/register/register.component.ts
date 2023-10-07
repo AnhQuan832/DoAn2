@@ -34,13 +34,12 @@ export class RegisterComponent {
 
   registerNewUser() {
     this.isSubmitted = true;
-    if (!this.registerForm.valid)
-      return
-    this.authService.registerNewUser(this.registerForm.value).subscribe({
-      next: (response) => console.log(response),
-      error: (err) => console.log(`error: ${err}`)
-    }
-    )
+    if (this.registerForm.valid)
+      this.authService.registerNewUser(this.registerForm.value).subscribe({
+        next: (response) => console.log(response),
+        error: (err) => console.log(`error: ${err}`)
+      }
+      )
   }
 
   clearErrorNotification() {
