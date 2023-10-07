@@ -1,7 +1,10 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
+
+import { GoogleLoginProvider, FacebookLoginProvider } from "@abacritt/angularx-social-login";
 
 
 @Component({
@@ -12,9 +15,9 @@ import { AuthService } from 'src/app/core/service/auth.service';
 export class LoginComponent {
 
   isSubmitted = false;
-  isWrongLogin = false;
+  private accessToken = '';
   constructor(
-    // private socialLoginService: SocialAuthService,
+    private socialLoginService: SocialAuthService,
     private builder: FormBuilder,
     private authService: AuthService,
     private router: Router,
@@ -58,16 +61,16 @@ export class LoginComponent {
 
   }
 
-  // getAccessToken(): void {
-  //   this.socialLoginService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(
-  //     accessToken => this.accessToken = accessToken);
-  // }
-  // public signOut(): void {
-  //   this.socialLoginService.signOut();
-  // }
-  // refreshToken(): void {
-  //   this.socialLoginService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
-  // }
+  getAccessToken(): void {
+    this.socialLoginService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(
+      accessToken => this.accessToken = accessToken);
+  }
+  public signOut(): void {
+    this.socialLoginService.signOut();
+  }
+  refreshToken(): void {
+    this.socialLoginService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+  }
 
 
   // setLocalUser(inputData: any) {
