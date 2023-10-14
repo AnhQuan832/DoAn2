@@ -77,13 +77,13 @@
         class="inputtext w-100 ps-2 mt-1 form-control"
         pInputText
         type="text"
-        formControlName="userFullname"
+        formControlName="userFullName"
         (focus)="clearErrorNotification()"
       />
       <div *ngIf="isSubmitted">
         <small
           class="text-danger"
-          *ngIf="registerForm.get('userFullname')?.hasError('required')"
+          *ngIf="registerForm.get('userFullName')?.hasError('required')"
           >Fullname is required</small
         >
       </div>

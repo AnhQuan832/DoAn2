@@ -7,8 +7,12 @@ import { ShopViewComponent } from './shop-view/shop-view.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CartComponent } from './cart/cart.component';
-import { SharedModule } from 'primeng/api';
+import { UserLayoutComponent } from './user-layout.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
+import { CarouselModule } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [
@@ -16,12 +20,16 @@ import { SharedModule } from 'primeng/api';
     ShopViewComponent,
     ProductDetailComponent,
     UserProfileComponent,
-    CartComponent
+    CartComponent,
+    UserLayoutComponent
   ],
   imports: [
     CommonModule,
     UserLayoutRoutingModule,
-    SharedModule
+    SharedModule,
+    CarouselModule,
+    ButtonModule,
+    TagModule
   ]
 })
 export class UserLayoutModule { }

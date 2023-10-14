@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductComponent } from './product/product.component';
 import { CouponComponent } from './coupon/coupon.component';
 import { OrderComponent } from './order/order.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -21,6 +22,7 @@ import { OrderComponent } from './order/order.component';
   imports: [
     CommonModule,
     AdminLayoutRoutingModule,
+    SharedModule
   ]
 })
 export class AdminLayoutModule { }

@@ -55,7 +55,7 @@ export class LoginComponent {
     if (this.loginForm.valid)
       this.authService.login(this.loginForm.value.userEmail, this.loginForm.value.userPassword).subscribe({
         next: (user) => console.log(user),
-        error: (err) => console.log(err),
+        error: (err) => console.log(err.data),
       })
 
 

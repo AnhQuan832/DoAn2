@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_URL } from '../constants/API_URL'
 import { User } from '../models/user';
+import { catchError, map } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -14,23 +16,46 @@ export class AuthService {
   ) { }
 
   login(userEmail, userPassword) {
-    return this.http.post<User>(this.baseUrl + '/authenticate', {
+    return this.http.post(this.baseUrl + '/authenticate', {
       userEmail: userEmail,
       userPassword: userPassword
-    })
+    }).pipe(
+      map((data: any) => {
+        if (data.meta.code === "") {
+          return data.data
+        }
+        else {
+          throw new Error(data.meta)
+        }
+      }),
+      catchError((err) => {
+        throw new Error(err)
+      })
+    );
   }
 
   registerNewUser(inputData) {
     console.log(inputData)
-    return (this.http.post(this.baseUrl + '/userRegister', {
+    return this.http.post(this.baseUrl + '/userRegister', {
       userEmail: inputData.userEmail,
       userPassword: inputData.userPassword,
-      userFirstName: this.getFirstName(inputData.userName),
-      userLastName: this.getLastName(inputData.userName),
+      userFirstName: this.getFirstName(inputData.userFullName),
+      userLastName: this.getLastName(inputData.userFullName),
       userPhoneNumber: inputData.phoneNumber,
-      isSocial: false,
       userAvatar: ""
-    }));
+    }).pipe(
+      map((data: any) => {
+        if (data.meta.code === "") {
+          return data.data
+        }
+        else {
+          throw new Error(data.meta)
+        }
+      }),
+      catchError((err) => {
+        throw new Error(err)
+      })
+    );
   }
 
   async sendOTPVerifyEmail(inputData: any): Promise<any> {
