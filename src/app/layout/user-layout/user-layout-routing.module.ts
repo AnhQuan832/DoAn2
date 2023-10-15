@@ -8,6 +8,11 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/user/home',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: UserLayoutComponent,
     children: [
       {

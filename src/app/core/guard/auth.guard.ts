@@ -23,11 +23,12 @@ export class AuthGuard {
           return true;
         }
         else {
+          this.router.navigate(['/user/home'])
           return false;
         }
       }
     }
-    this.router.navigate(['/login'])
+    this.router.navigate(['/auth/login'])
     return false
   }
 

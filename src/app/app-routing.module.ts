@@ -17,7 +17,7 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./layout/admin-layout/admin-layout.module').then(module => module.AdminLayoutModule),
     canActivate: [AuthGuard], data: {
-      userRoles: ['ROLE_SHELTER_MANAGER']
+      userRoles: ['ROLE_ADMIN']
     }
   },
   {
