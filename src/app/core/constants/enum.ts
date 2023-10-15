@@ -2,7 +2,6 @@
 const API_URL = 'https://doan02-be-production.up.railway.app/api/v1/';
 
 
-
 export const AUTH_API = {
   'AUTHENTICATE': {
     'END_POINT': {

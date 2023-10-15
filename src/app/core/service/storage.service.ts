@@ -12,7 +12,11 @@ export class StorageService {
   }
 
   getItemLocal(key: string) {
-    return localStorage.getItem(key)
+    const JSONItem = localStorage.getItem(key)
+    if (!JSONItem) {
+      return null;
+    }
+    return JSON.parse(JSONItem)
   }
 
   setTimeResetTokenCookie(key: string, value: any, expDays: number = 1) {

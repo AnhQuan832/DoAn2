@@ -11,7 +11,7 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'home',
         component: LandingComponent
       },
       {

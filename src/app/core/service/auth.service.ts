@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { AUTH_API } from '../constants/enum';
+import { StorageService } from './storage.service';
 
 
 
@@ -10,7 +11,8 @@ import { AUTH_API } from '../constants/enum';
 })
 export class AuthService {
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private storageService: StorageService
   ) { }
 
   login(userEmail, userPassword) {
@@ -20,10 +22,10 @@ export class AuthService {
     }).pipe(
       map((data: any) => {
         if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.AUTHENTICATE_SUCCESSFUL) {
-          return data.data
+          return data.data.user
         }
         else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.BAD_CREDENTIAL) {
-          return data.data
+          return data.data.user
         }
         else {
           throw new Error(data.meta)
@@ -79,6 +81,15 @@ export class AuthService {
 
   }
 
+
+
+  roleMatch(allowedRoles: any): boolean {
+    const userRoles: any = this.storageService.getItemLocal("userInfo").userRoles[0].roleName;
+    if (userRoles != null && userRoles)
+      if (userRoles.includes(allowedRoles[0]))
+        return true
+    return false
+  }
   private getFirstName(userName: string) {
     return userName.slice(0, userName.indexOf(" "))
   }
