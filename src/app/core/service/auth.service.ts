@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { API_URL } from '../constants/API_URL'
-import { User } from '../models/user';
 import { catchError, map } from 'rxjs/operators';
+import { AUTH_API } from '../constants/enum';
 
 
 
@@ -10,18 +9,20 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = `${API_URL}/auth`
   constructor(
     private http: HttpClient
   ) { }
 
   login(userEmail, userPassword) {
-    return this.http.post(this.baseUrl + '/authenticate', {
+    return this.http.post(AUTH_API.AUTHENTICATE.END_POINT.LOGIN, {
       userEmail: userEmail,
       userPassword: userPassword
     }).pipe(
       map((data: any) => {
-        if (data.meta.code === "") {
+        if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.AUTHENTICATE_SUCCESSFUL) {
+          return data.data
+        }
+        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.BAD_CREDENTIAL) {
           return data.data
         }
         else {
@@ -36,7 +37,7 @@ export class AuthService {
 
   registerNewUser(inputData) {
     console.log(inputData)
-    return this.http.post(this.baseUrl + '/userRegister', {
+    return this.http.post(AUTH_API.AUTHENTICATE.END_POINT.REGISTER, {
       userEmail: inputData.userEmail,
       userPassword: inputData.userPassword,
       userFirstName: this.getFirstName(inputData.userFullName),
@@ -45,7 +46,16 @@ export class AuthService {
       userAvatar: ""
     }).pipe(
       map((data: any) => {
-        if (data.meta.code === "") {
+        if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.CREATED_ACCOUNT_SUCCESSFUL) {
+          return data.data
+        }
+        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.ACCOUNT_EXISTED) {
+          return data.data
+        }
+        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.ACCOUNT_INACTIVE) {
+          return data.data
+        }
+        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.ACCOUNT_LOCKED) {
           return data.data
         }
         else {
@@ -58,38 +68,9 @@ export class AuthService {
     );
   }
 
-  async sendOTPVerifyEmail(inputData: any): Promise<any> {
-    return await (this.http.post(this.baseUrl + 'otp/sendOTPConfirmEmail', {
-      emailAddress: inputData,
-    }
-    )).toPromise();
-  }
-
-  async sendOTPForgotPassword(inputData: any): Promise<any> {
-    return await (this.http.post(this.baseUrl + 'otp/sendOTPForgotPassword', {
-      emailAddress: inputData.email,
-    }
-    )).toPromise();
-  }
-  async verifyEmail(inputData: any): Promise<any> {
-    return await (this.http.post(this.baseUrl + 'otp/validateOTPConfirmEmail', {
-      otp: inputData.otp
-    }
-    )).toPromise();
-  }
-
-  async verifyNewPassword(inputData: any): Promise<any> {
-    const email = localStorage.getItem("validatedEmail")
-    return await (this.http.post(this.baseUrl + 'otp/validateOTPForgotPassword', {
-      emailAddress: email,
-      otp: inputData.otp,
-      newPassword: inputData.newPassword
-    }
-    )).toPromise();
-  }
 
   loginGoogle(inputData: any) {
-    return (this.http.post(this.baseUrl + 'auth/authenticateGoogleUser', {
+    return (this.http.post(AUTH_API.AUTHENTICATE.END_POINT.GG_LOGIN, {
       userEmail: inputData.email,
       userFirstName: inputData.firstName,
       userLastName: inputData.lastName,

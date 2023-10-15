@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
 
 import { GoogleLoginProvider, FacebookLoginProvider } from "@abacritt/angularx-social-login";
+import { StorageService } from 'src/app/core/service/storage.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
 
-    // private userService: UserService,
+    private storageService: StorageService,
   ) { }
 
   loginForm = this.builder.group({
@@ -54,7 +55,9 @@ export class LoginComponent {
     this.isSubmitted = true;
     if (this.loginForm.valid)
       this.authService.login(this.loginForm.value.userEmail, this.loginForm.value.userPassword).subscribe({
-        next: (user) => console.log(user),
+        next: (user) => {
+          this.storageService.setItemLocal("userInfo", user.user)
+        },
         error: (err) => console.log(err.data),
       })
 
