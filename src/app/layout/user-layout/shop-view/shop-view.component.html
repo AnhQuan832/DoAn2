@@ -1,0 +1,89 @@
+<div class="newArrival">
+  <div class="newArrival-title">New Arrival</div>
+  <div class="newArrival-carousel">
+    <div class="card">
+      <p-carousel
+        [value]="products"
+        [numVisible]="3"
+        [numScroll]="3"
+        [circular]="true"
+        [responsiveOptions]="responsiveOptions"
+        [autoplayInterval]="3000"
+      >
+        <ng-template let-product pTemplate="item">
+          <div
+            class="border-1 surface-border border-round m-2 text-center py-5 px-3"
+          >
+            <div class="mb-3">
+              <img
+                src="https://primefaces.org/cdn/primeng/images/demo/product/{{
+                  product.image
+                }}"
+                [alt]="product.name"
+                class="w-6 shadow-2"
+              />
+            </div>
+            <div>
+              <h4 class="mb-1">{{ product.name }}</h4>
+              <h6 class="mt-0 mb-3">{{ "$" + product.price }}</h6>
+              <p-tag
+                [value]="product.inventoryStatus"
+                [severity]="getSeverity(product.inventoryStatus)"
+              ></p-tag>
+              <div class="car-buttons mt-5">
+                <p-button
+                  type="button"
+                  styleClass="p-button p-button-rounded mr-2"
+                  icon="pi pi-search"
+                ></p-button>
+                <p-button
+                  type="button"
+                  styleClass="p-button-success p-button-rounded mr-2"
+                  icon="pi pi-star-fill"
+                ></p-button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </div>
+</div>
+
+<div class="shopView d-flex">
+  <div class="shopView-filter col-sm-6 col-md-2">
+    <div class="side-filter d-flex flex-column p-2">
+      <div class="pet-type w-100 p-2">
+        <h4>Tìm kiếm</h4>
+        <div class="search-bar w-100 d-flex flex-nowrap">
+          <span class="p-input-icon-left w-100 pe-2">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              placeholder="Nhập thông tin ..."
+              class="rounded-4 p-1 w-100"
+              [(ngModel)]="searchValue"
+              (ngModelChange)="onUserSearched()"
+              pInputText
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="shopView-list d-flex flex-wrap col-sm-6 col-md-10">
+    <p-dataView
+      class="w-100"
+      [value]="products"
+      layout="grid"
+      [rows]="10"
+      [paginator]="true"
+      emptyMessage="Không có bé cần tìm"
+      filterBy="animalName,animalAge,animalGender,animalBreed,shelterName"
+    >
+      <ng-template let-product pTemplate="gridItem">
+        <app-product-card [product]="product"></app-product-card>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>

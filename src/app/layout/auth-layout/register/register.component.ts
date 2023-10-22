@@ -24,7 +24,7 @@ export class RegisterComponent {
   registerForm = this.builder.group({
     userEmail: this.builder.control('', [Validators.required, Validators.email]),
     userPassword: this.builder.control('', [Validators.required, Validators.minLength(6)]),
-    userFullname: this.builder.control('', [Validators.required]),
+    userFullName: this.builder.control('', [Validators.required]),
     userPhoneNumber: this.builder.control('', [Validators.required, Validators.pattern(/^(?:\d{9}|\d{10})$/)])
   })
 
@@ -37,7 +37,7 @@ export class RegisterComponent {
     if (this.registerForm.valid)
       this.authService.registerNewUser(this.registerForm.value).subscribe({
         next: (response) => console.log(response),
-        error: (err) => console.log(`error: ${err}`)
+        error: (err) => console.log(err)
       }
       )
   }

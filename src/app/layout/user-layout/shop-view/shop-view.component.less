@@ -1,0 +1,31 @@
+.shopView {
+  .shopView-filter {
+    .search-bar {
+      input {
+        background-color: rgb(228, 230, 235);
+        border: none;
+        padding-left: 2.2rem !important;
+        &:focus {
+          outline: none;
+        }
+      }
+      i {
+        margin-left: 0.35rem;
+      }
+    }
+  }
+  @media (max-width: 649.98px) {
+    display: flex;
+    flex-direction: column;
+    .side-filter {
+      width: 100%;
+      h4 {
+        font-size: 16px;
+      }
+    }
+    .pet-list {
+      width: 100%;
+      padding-top: 0;
+    }
+  }
+}

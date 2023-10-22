@@ -1,0 +1,22 @@
+@import "../../../../colors.less";
+
+.card {
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: inline-flex;
+  width: clamp(250px, 23%, 300px);
+  img {
+    align-self: stretch;
+    height: 300px;
+  }
+  i {
+    cursor: pointer;
+    font-size: 24px;
+    &:hover {
+      color: @primary-color;
+      font-weight: 700;
+    }
+  }
+}

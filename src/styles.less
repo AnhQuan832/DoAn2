@@ -1,12 +1,11 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeng/resources/themes/nova/theme.css";
 @import "primeicons/primeicons.css";
-@import "~bootstrap/dist/css/bootstrap.css";
-:root {
-  @primary-color: #ff9b00;
-  @light-bg: #f5f5f5;
-  @offwhite-color: #fafafa;
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
+@import "colors.less";
+
+:root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -59,7 +58,8 @@
   }
 
   .p-inputtext,
-  .inputtext {
+  .inputtext,
+  input {
     // border: solid 2px;
     border-radius: 7px;
     &:focus {
@@ -175,7 +175,7 @@
         border-radius: 5px;
       }
       .p-paginator-page.p-highlight {
-        background-color: #7a3d26 !important;
+        background-color: @primary-color !important;
       }
     }
 
@@ -218,9 +218,9 @@
       min-width: 2rem;
       border-radius: 5px;
     }
-    .p-paginator-page.p-highlight {
-      background-color: #7a3d26 !important;
-    }
+    // .p-paginator-page.p-highlight {
+    //   background-color: @primary-color !important;
+    // }
   }
   .p-badge {
     background-color: @primary-color;

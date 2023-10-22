@@ -77,13 +77,13 @@
         class="inputtext w-100 ps-2 mt-1 form-control"
         pInputText
         type="text"
-        formControlName="userFullname"
+        formControlName="userFullName"
         (focus)="clearErrorNotification()"
       />
       <div *ngIf="isSubmitted">
         <small
           class="text-danger"
-          *ngIf="registerForm.get('userFullname')?.hasError('required')"
+          *ngIf="registerForm.get('userFullName')?.hasError('required')"
           >Fullname is required</small
         >
       </div>
@@ -118,7 +118,7 @@
       </button>
     </div>
     <p class="mx-auto my-2">
-      <a routerLink="/register">Back to login</a>
+      <a routerLink="/auth/login">Back to login</a>
     </p>
     <p-divider class="mx-auto mb-2">or</p-divider>
     <asl-google-signin-button

@@ -7,4 +7,18 @@ import { Component } from '@angular/core';
 })
 export class AdminLayoutComponent {
 
+  onNavbarClick(element) {
+    const items = document.querySelectorAll(".nav-link");
+    items.forEach((item) => {
+      item.classList.remove("active")
+      item.removeAttribute("style");
+    })
+    element.target.classList.add("active")
+  }
+
+  toogleSideBar() {
+    const sidebar: any = document.getElementById('sidebar');
+    sidebar.classList.toggle('hide');
+
+  }
 }
