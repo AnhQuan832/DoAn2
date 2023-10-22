@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { AUTH_API } from '../constants/enum';
+import { API } from '../constants/enum';
 import { StorageService } from './storage.service';
 
 
@@ -16,15 +16,15 @@ export class AuthService {
   ) { }
 
   login(userEmail, userPassword) {
-    return this.http.post(AUTH_API.AUTHENTICATE.END_POINT.LOGIN, {
+    return this.http.post(API.AUTHENTICATE.END_POINT.LOGIN, {
       userEmail: userEmail,
       userPassword: userPassword
     }).pipe(
       map((data: any) => {
-        if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.AUTHENTICATE_SUCCESSFUL) {
+        if (data.meta.statusCode === API.AUTHENTICATE.STATUS.AUTHENTICATE_SUCCESSFUL) {
           return data.data.user
         }
-        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.BAD_CREDENTIAL) {
+        else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.BAD_CREDENTIAL) {
           return data.data.user
         }
         else {
@@ -39,7 +39,7 @@ export class AuthService {
 
   registerNewUser(inputData) {
     console.log(inputData)
-    return this.http.post(AUTH_API.AUTHENTICATE.END_POINT.REGISTER, {
+    return this.http.post(API.AUTHENTICATE.END_POINT.REGISTER, {
       userEmail: inputData.userEmail,
       userPassword: inputData.userPassword,
       userFirstName: this.getFirstName(inputData.userFullName),
@@ -48,16 +48,16 @@ export class AuthService {
       userAvatar: ""
     }).pipe(
       map((data: any) => {
-        if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.CREATED_ACCOUNT_SUCCESSFUL) {
+        if (data.meta.statusCode === API.AUTHENTICATE.STATUS.CREATED_ACCOUNT_SUCCESSFUL) {
           return data.data
         }
-        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.ACCOUNT_EXISTED) {
+        else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.ACCOUNT_EXISTED) {
           return data.data
         }
-        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.ACCOUNT_INACTIVE) {
+        else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.ACCOUNT_INACTIVE) {
           return data.data
         }
-        else if (data.meta.statusCode === AUTH_API.AUTHENTICATE.STATUS.ACCOUNT_LOCKED) {
+        else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.ACCOUNT_LOCKED) {
           return data.data
         }
         else {
@@ -72,7 +72,7 @@ export class AuthService {
 
 
   loginGoogle(inputData: any) {
-    return (this.http.post(AUTH_API.AUTHENTICATE.END_POINT.GG_LOGIN, {
+    return (this.http.post(API.AUTHENTICATE.END_POINT.GG_LOGIN, {
       userEmail: inputData.email,
       userFirstName: inputData.firstName,
       userLastName: inputData.lastName,

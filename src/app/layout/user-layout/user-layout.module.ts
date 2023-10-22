@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { UserLayoutRoutingModule } from './user-layout-routing.module';
 import { LandingComponent } from './landing/landing.component';
@@ -13,6 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { DataViewModule } from 'primeng/dataview';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { TagModule } from 'primeng/tag';
     SharedModule,
     CarouselModule,
     ButtonModule,
-    TagModule
+    TagModule,
+    FormsModule,
+    DataViewModule
   ]
 })
 export class UserLayoutModule { }

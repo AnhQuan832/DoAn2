@@ -1,8 +1,7 @@
 // export const API_URL = 'http://localhost:8080/api/v1';
 const API_URL = 'https://doan02-be-production.up.railway.app/api/v1/';
 
-
-export const AUTH_API = {
+export const API = {
   'AUTHENTICATE': {
     'END_POINT': {
       'LOGIN': API_URL + 'auth/authenticate',
@@ -19,5 +18,17 @@ export const AUTH_API = {
       'BAD_CREDENTIAL': '1_6_f',
       'AUTHENTICATE_SUCCESSFUL': '1_7_s',
     }
-  }
+  },
+  'PRODUCT': {
+    'END_POINT': {
+      'PRODUCT': API_URL + 'product',
+      'SUB_CATEGORY': API_URL + 'product/sub-category',
+      'CATEGORY': API_URL + 'product/category',
+      'BRAND': API_URL + 'product/brand',
+
+    },
+    'STATUS': {
+      'GET_PRODUCT_SUCCESS': '0_2_s',
+    }
+  },
 }

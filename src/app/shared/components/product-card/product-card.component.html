@@ -1,20 +1,19 @@
-<div class="card">
+<div class="card m-2">
   <img src="https://via.placeholder.com/320x300" />
-  <div class="card-content d-flex flex-column p-4">
-    <h3 class="product-name">Pijama for poodle</h3>
+  <div class="card-content w-100 d-flex flex-column p-3">
+    <h3 class="product-name">{{ product?.name }}</h3>
     <p class="product-des">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      varius enim in eros.
+      {{ product?.description }}
     </p>
     <div class="product-rating">
       <p-rating
-        [(ngModel)]="ratingValue"
+        [(ngModel)]="product.avgRating"
         [readonly]="true"
         [cancel]="false"
       ></p-rating>
     </div>
     <div class="product-price d-flex justify-content-between">
-      125.000 VND
+      {{ product?.price.toLocaleString() }} VND
       <i class="bi bi-cart2"></i>
     </div>
   </div>

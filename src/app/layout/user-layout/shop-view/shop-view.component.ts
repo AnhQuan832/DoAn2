@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from 'src/app/core/service/product.service';
 
 @Component({
   selector: 'app-shop-view',
@@ -6,63 +7,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./shop-view.component.less']
 })
 export class ShopViewComponent implements OnInit {
-  responsiveOptions;
+  responsiveOptions = [
+    {
+      breakpoint: '1199px',
+      numVisible: 1,
+      numScroll: 1
+    },
+    {
+      breakpoint: '991px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '767px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ];
   products;
+  searchValue;
   timeAutoPlay = 3000;
+  protected selectedShelter = "All";
+  protected selectedSpecie = "All";
+
+  constructor(private productService: ProductService) { }
   ngOnInit(): void {
-    this.responsiveOptions = [
-      {
-        breakpoint: '1199px',
-        numVisible: 1,
-        numScroll: 1
+    this.initialize();
+  }
+
+  private initialize() {
+    this.productService.getAllProduct().subscribe({
+      next: (res) => {
+        this.products = res;
+        console.log(this.products)
       },
-      {
-        breakpoint: '991px',
-        numVisible: 2,
-        numScroll: 1
-      },
-      {
-        breakpoint: '767px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ];
-    this.products = [
-      {
-        id: '1000',
-        code: 'f230fh0g3',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
-        image: 'bamboo-watch.jpg',
-        price: 65,
-        category: 'Accessories',
-        quantity: 24,
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      }, {
-        id: '1000',
-        code: 'f230fh0g3',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
-        image: 'bamboo-watch.jpg',
-        price: 65,
-        category: 'Accessories',
-        quantity: 24,
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      }, {
-        id: '1000',
-        code: 'f230fh0g3',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
-        image: 'bamboo-watch.jpg',
-        price: 65,
-        category: 'Accessories',
-        quantity: 24,
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      },
-    ]
+      error: (err) => console.log(err)
+    })
   }
 
   getSeverity(status: string) {
@@ -78,5 +58,8 @@ export class ShopViewComponent implements OnInit {
     }
   }
 
+  onUserSearched() {
+
+  }
 
 }
