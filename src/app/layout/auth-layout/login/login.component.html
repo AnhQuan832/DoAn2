@@ -49,6 +49,9 @@
         >
           Password is required.
         </small>
+        <small class="text-danger text-center" *ngIf="msgError">
+          {{ msgError }}.
+        </small>
       </div>
     </span>
     <a class="text-end" routerLink="/forgot-password">Forgot password</a>

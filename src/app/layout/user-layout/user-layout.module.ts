@@ -15,6 +15,9 @@ import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { DataViewModule } from 'primeng/dataview';
+import { GalleriaModule } from 'primeng/galleria';
+import { RatingModule } from 'primeng/rating';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { DataViewModule } from 'primeng/dataview';
     ButtonModule,
     TagModule,
     FormsModule,
-    DataViewModule
+    DataViewModule,
+    GalleriaModule,
+    RatingModule,
+    InputNumberModule
   ]
 })
 export class UserLayoutModule { }

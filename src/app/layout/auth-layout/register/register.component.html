@@ -95,7 +95,6 @@
         class="inputtext w-100 ps-2 mt-1 form-control"
         type="number"
         maxlength="10"
-        pInputText
         formControlName="userPhoneNumber"
         (focus)="clearErrorNotification()"
       />
@@ -110,8 +109,15 @@
           *ngIf="registerForm.get('userPhoneNumber')?.hasError('required')"
           >Phone number is required</small
         >
+        <small class="text-danger text-center" *ngIf="msgError">{{
+          msgError
+        }}</small>
+        <small class="text-success text-center" *ngIf="msgSuccess"
+          >{{ msgSuccess }} <a href="/auth/login">Back to login</a></small
+        >
       </div>
     </span>
+
     <div class="btn-container d-flex justify-content-center pt-4">
       <button type="submit" class="btn btn-primary w-100 text-nowrap rounded-3">
         Create account

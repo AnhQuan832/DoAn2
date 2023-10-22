@@ -1,1 +1,81 @@
-<p>product-detail works!</p>
+<div
+  *ngIf="isLoading"
+  class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
+>
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Đang tải...</span>
+  </div>
+  <p style="opacity: 0.7">Đang tải</p>
+</div>
+<div class="container p-4">
+  <div class="info">
+    <p-galleria
+      [value]="listImg"
+      [showItemNavigatorsOnHover]="true"
+      [showItemNavigators]="true"
+      [containerStyle]="{ 'max-width': '640px', 'min-height': '500px' }"
+    >
+      <ng-template pTemplate="item" let-item>
+        <img
+          [src]="item"
+          style="
+            width: 80%;
+            display: block;
+            padding-bottom: 10px;
+            min-height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+          "
+        />
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <div class="grid grid-nogutter justify-content-center">
+          <img [src]="item" class="h-100" style="display: block; width: 20%" />
+        </div>
+      </ng-template>
+    </p-galleria>
+
+    <div class="product-info">
+      <div class="basic-info ps-4">
+        <div class="product-name d-flex">
+          <h1 class="py-2">{{ product.name }}</h1>
+        </div>
+        <div class="product-rating">
+          <p-rating
+            [(ngModel)]="product.avgRating"
+            [readonly]="true"
+            [cancel]="false"
+          ></p-rating>
+        </div>
+
+        <h5><b>Price:</b> {{ product.price.toLocaleString() + " VND" }}</h5>
+        <p-inputNumber
+          [(ngModel)]="numberOfProduct"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          [step]="1"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </div>
+
+      <div class="button-group pt-2"></div>
+    </div>
+  </div>
+  <div class="detail-status pt-4">
+    <div class="inline-flex align-items-center">
+      <h5><b>Detail</b></h5>
+    </div>
+    <div>
+      <textarea
+        class="w-100"
+        name=""
+        id="textarea"
+        pInputTextarea
+        disabled="true"
+      ></textarea>
+    </div>
+  </div>
+</div>

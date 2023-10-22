@@ -4,6 +4,7 @@ import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { StorageService } from 'src/app/core/service/storage.service';
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,15 @@ import { AuthService } from 'src/app/core/service/auth.service';
 })
 export class RegisterComponent {
 
+  msgError: string;
+  msgSuccess: string;
+
   constructor(
     private socialService: SocialAuthService,
     private authService: AuthService,
     private builder: FormBuilder,
     private router: Router,
+    private storageService: StorageService,
   ) { }
 
   isSubmitted = false;
@@ -36,7 +41,14 @@ export class RegisterComponent {
     this.isSubmitted = true;
     if (this.registerForm.valid)
       this.authService.registerNewUser(this.registerForm.value).subscribe({
-        next: (response) => console.log(response),
+        next: (res) => {
+          console.log(res)
+          if (typeof res === 'string') {
+            this.msgError = res;
+            return
+          }
+          this.msgSuccess = "Account created"
+        },
         error: (err) => console.log(err)
       }
       )

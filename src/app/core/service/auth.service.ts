@@ -25,7 +25,7 @@ export class AuthService {
           return data.data.user
         }
         else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.BAD_CREDENTIAL) {
-          return data.data.user
+          return "Wrong login information"
         }
         else {
           throw new Error(data.meta)
@@ -52,13 +52,13 @@ export class AuthService {
           return data.data
         }
         else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.ACCOUNT_EXISTED) {
-          return data.data
+          return "Account existed"
         }
         else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.ACCOUNT_INACTIVE) {
-          return data.data
+          return "Account was not activated"
         }
         else if (data.meta.statusCode === API.AUTHENTICATE.STATUS.ACCOUNT_LOCKED) {
-          return data.data
+          return "Account locked"
         }
         else {
           throw new Error(data.meta)
