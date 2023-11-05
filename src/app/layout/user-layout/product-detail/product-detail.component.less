@@ -1,6 +1,28 @@
 ::ng-deep {
   .p-inputtext,
   .inputtext {
-    border-radius: 0px;
+    border-radius: 0 !important;
+    width: 40px;
+    text-align: center;
+  }
+}
+
+.attribute {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  > div {
+    border-radius: 2px;
+    border: solid 1px;
+    padding: 0.5rem;
+    width: fit-content;
+    min-width: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .active {
+    border: solid 1px #ff9b00;
+    color: #ff9b00;
   }
 }
