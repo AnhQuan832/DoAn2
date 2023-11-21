@@ -18,7 +18,14 @@ import { DataViewModule } from 'primeng/dataview';
 import { GalleriaModule } from 'primeng/galleria';
 import { RatingModule } from 'primeng/rating';
 import { InputNumberModule } from 'primeng/inputnumber';
-
+import { CheckOutComponent } from './check-out/check-out.component';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
     LandingComponent,
@@ -26,7 +33,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ProductDetailComponent,
     UserProfileComponent,
     CartComponent,
-    UserLayoutComponent
+    UserLayoutComponent,
+    CheckOutComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +47,14 @@ import { InputNumberModule } from 'primeng/inputnumber';
     DataViewModule,
     GalleriaModule,
     RatingModule,
-    InputNumberModule
-  ]
+    InputNumberModule,
+    TableModule,
+    DialogModule,
+    ToastModule,
+    ToolbarModule,
+    InputTextModule,
+    DropdownModule
+  ],
+  providers: [MessageService, ConfirmationService]
 })
 export class UserLayoutModule { }

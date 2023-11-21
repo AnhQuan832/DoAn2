@@ -77,8 +77,13 @@ export class AuthService {
       userFirstName: inputData.firstName,
       userLastName: inputData.lastName,
       userAvatar: inputData.photoUrl
-    }));
-
+    })).pipe(
+      map((data: any) => {
+        if (data.meta.statusCode === API.AUTHENTICATE.STATUS.AUTHENTICATE_SUCCESSFUL)
+          return data.data.user
+        return false
+      }
+      ))
   }
 
 

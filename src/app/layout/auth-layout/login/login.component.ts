@@ -38,13 +38,16 @@ export class LoginComponent {
     this.socialLoginService.authState.subscribe(
       (user) => {
         this.authService.loginGoogle(user).subscribe(
-          response => {
-            const user: any = response
-            console.log(user.userRoles.includes("ROLE_SHELTER_MANAGER"))
-            if (user.userRoles.includes("ROLE_SHELTER_MANAGER"))
-              this.router.navigate(['/shelter/landing'])
-            else
-              this.router.navigate(['/user/landing'])
+          res => {
+            if (typeof res === 'string') {
+              this.msgError = res;
+              return
+            }
+            const { jwtToken, ...userInfo } = res
+            this.storageService.setItemLocal("userInfo", userInfo)
+            this.storageService.setTimeResetTokenCookie("jwtToken", jwtToken)
+            this.router.navigate(['/user/home'])
+
           }
         )
       });
@@ -62,11 +65,8 @@ export class LoginComponent {
           const { jwtToken, ...userInfo } = res
           this.storageService.setItemLocal("userInfo", userInfo)
           this.storageService.setTimeResetTokenCookie("jwtToken", jwtToken)
+          this.router.navigate(['/user/home'])
 
-          if (userInfo.userRoles[0].roleName === 'ROLE_CUSTOMER')
-            this.router.navigate(['/user/home'])
-          else if (userInfo.userRoles[0].roleName === 'ROLE_ADMIN')
-            this.router.navigate(['/admin/dashboard'])
         },
         error: (err) => console.log(err),
       })

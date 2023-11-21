@@ -25,10 +25,19 @@ export const API = {
       'SUB_CATEGORY': API_URL + 'product/sub-category',
       'CATEGORY': API_URL + 'product/category',
       'BRAND': API_URL + 'product/brand',
-
     },
     'STATUS': {
       'GET_PRODUCT_SUCCESS': '0_2_s',
     }
   },
+  'CART': {
+    'END_POINT': {
+      'CART': API_URL + 'cart',
+      'ADD_TO_CART': API_URL + 'cart/add-cart-item',
+
+    },
+    'STATUS': {
+      'GET_PRODUCT_SUCCESS': '0_2_s',
+    }
+  }
 }

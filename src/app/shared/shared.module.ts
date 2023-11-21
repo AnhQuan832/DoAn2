@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-
+import { TableModule } from 'primeng/table';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -22,7 +22,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     InputTextModule,
     ButtonModule,
     RatingModule,
-    FormsModule
+    FormsModule,
+    TableModule
   ],
   exports: [
     FooterComponent,
