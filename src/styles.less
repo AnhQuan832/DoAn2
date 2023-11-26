@@ -12,7 +12,11 @@ body {
 :root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  ol,
+  ul {
+    padding-left: 0rem;
+    margin-bottom: 0;
+  }
   a {
     text-decoration: none;
     color: rebeccapurple;
@@ -42,7 +46,6 @@ body {
     margin: 0;
   }
   .p-button {
-    background-color: transparent;
     border: solid 1px #161616;
     span {
       color: #fff;
@@ -94,7 +97,7 @@ body {
     box-shadow: @primary-color;
   }
   .p-divider-solid.p-divider-horizontal:before {
-    border: 0.01rem solid @primary-color;
+    // border: 0.01rem solid @primary-color;
   }
   .p-divider.p-divider-horizontal {
     margin: 0;

@@ -10,12 +10,13 @@ import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 @NgModule({
   declarations: [
     FooterComponent,
     NavBarComponent,
     ProductCardComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     CommonModule,
@@ -23,12 +24,9 @@ import { TableModule } from 'primeng/table';
     ButtonModule,
     RatingModule,
     FormsModule,
-    TableModule
+    TableModule,
+    MenuModule,
   ],
-  exports: [
-    FooterComponent,
-    NavBarComponent,
-    ProductCardComponent
-  ]
+  exports: [FooterComponent, NavBarComponent, ProductCardComponent],
 })
-export class SharedModule { }
+export class SharedModule {}

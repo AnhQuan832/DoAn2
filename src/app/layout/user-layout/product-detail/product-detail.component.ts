@@ -25,13 +25,14 @@ export class ProductDetailComponent implements OnInit {
   selectedVariety;
   isActiveColor = false;
   isActiveSize = false;
+  isLogin: boolean = false;
   constructor(
     private storageService: StorageService,
     private router: Router,
     private productSerivce: ProductService,
     private cartService: CartService,
     private messageSerice: MessageService
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.initialize();
     setTimeout(() => {
@@ -40,6 +41,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   initialize() {
+    this.isLogin = this.storageService.getDataFromCookie('jwtToken');
     this.product = this.storageService.getItemLocal('currentProduct');
     this.listVarieties = this.product.varieties;
     this.productSerivce.getProductDetail(this.product.productId).subscribe({
@@ -54,9 +56,10 @@ export class ProductDetailComponent implements OnInit {
         });
       },
     });
-    this.cartService.getCart().subscribe({
-      next: (res) => this.storageService.setItemLocal("cart", res)
-    })
+    if (this.isLogin)
+      this.cartService.getCart().subscribe({
+        next: (res) => this.storageService.setItemLocal('cart', res),
+      });
   }
 
   setDefaultAttribute() {
@@ -98,7 +101,9 @@ export class ProductDetailComponent implements OnInit {
         return item[1].attributeId === this.selectedColor.attributeId;
       return false;
     });
-    this.attPrice = this.selectedVariety ? this.selectedVariety.price : this.product.price;
+    this.attPrice = this.selectedVariety
+      ? this.selectedVariety.price
+      : this.product.price;
   }
 
   toggleActiveColor() {
@@ -114,10 +119,33 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    const cartId = this.storageService.getItemLocal("cart").cartId;
-    const data = { quantity: this.numberOfProduct, totalItemPrice: this.attPrice, varietyId: this.selectedVariety.varietyId }
-    this.cartService.addToCart(this.numberOfProduct, this.attPrice, this.selectedVariety.varietyId).subscribe({
-      next: (res) => this.messageSerice.add({ key: 'toast', severity: 'success', detail: 'Added to cart' })
-    })
+    const data = {
+      quantity: this.numberOfProduct,
+      totalItemPrice: this.attPrice,
+      varietyId: this.selectedVariety.varietyId,
+    };
+    if (this.isLogin) {
+      this.cartService
+        .addToCart(
+          this.numberOfProduct,
+          this.attPrice,
+          this.selectedVariety.varietyId
+        )
+        .subscribe({
+          next: (res) =>
+            this.messageSerice.add({
+              key: 'toast',
+              severity: 'success',
+              detail: 'Added to cart',
+            }),
+        });
+    } else {
+      let localCart = this.storageService.getItemLocal('localCart')?.cartId;
+      if (!localCart) {
+        localCart = [];
+      }
+      localCart.push(data);
+      this.storageService.setItemLocal('localCart', localCart);
+    }
   }
 }

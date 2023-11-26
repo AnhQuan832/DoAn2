@@ -26,6 +26,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DividerModule } from 'primeng/divider';
 @NgModule({
   declarations: [
     LandingComponent,
@@ -34,7 +36,7 @@ import { DropdownModule } from 'primeng/dropdown';
     UserProfileComponent,
     CartComponent,
     UserLayoutComponent,
-    CheckOutComponent
+    CheckOutComponent,
   ],
   imports: [
     CommonModule,
@@ -53,8 +55,10 @@ import { DropdownModule } from 'primeng/dropdown';
     ToastModule,
     ToolbarModule,
     InputTextModule,
-    DropdownModule
+    DropdownModule,
+    RadioButtonModule,
+    DividerModule,
   ],
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService],
 })
-export class UserLayoutModule { }
+export class UserLayoutModule {}

@@ -1,36 +1,20 @@
 <div class="grid">
   <div class="col-12">
-    <div class="card px-6 py-6">
-      <p-table
-        #dt
-        [value]="cart"
-        responsiveLayout="scroll"
-        [rows]="10"
-        [globalFilterFields]="[
+    <div class="card m-4 px-6 py-6" style="margin-bottom: 6rem;">
+      <p-table #dt [value]="cart" responsiveLayout="scroll" [(selection)]="selectedProducts" dataKey="cartItemId"
+        [rows]="8" [globalFilterFields]="[
           'name',
           'price',
           'brand.name',
           'subCategory.category.name'
-        ]"
-        [paginator]="true"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [(selection)]="selectedProducts"
-        selectionMode="multiple"
-        [rowHover]="true"
-        dataKey="id"
-      >
+        ]" [paginator]="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowHover]="true">
         <ng-template pTemplate="caption">
           <div class="d-flex justify-content-end">
             <span class="block p-input-icon-left">
               <i class="pi pi-search"></i>
-              <input
-                pInputText
-                type="text"
-                (input)="onGlobalFilter(dt, $event)"
-                placeholder="Search..."
-                class="w-full sm:w-auto"
-              />
+              <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                class="w-full sm:w-auto" />
             </span>
           </div>
         </ng-template>
@@ -39,22 +23,16 @@
             <th style="width: 3rem">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pSortableColumn="name">
-              Name <p-sortIcon field="name"></p-sortIcon>
-            </th>
-            <th pSortableColumn="brandName">
-              Brand
-              <p-sortIcon field="brandName"></p-sortIcon>
-            </th>
-            <th>Image</th>
-            <th pSortableColumn="price">
-              Price <p-sortIcon field="price"></p-sortIcon>
+
+            <th>Product</th>
+            <th pSortableColumn="unitPrice">
+              Price <p-sortIcon field="unitPrice"></p-sortIcon>
             </th>
             <th pSortableColumn="quantity">
               Quantity <p-sortIcon field="quantity"></p-sortIcon>
             </th>
-            <th pSortableColumn="rating">
-              Total <p-sortIcon field="rating"></p-sortIcon>
+            <th pSortableColumn="totalItemPrice">
+              Total <p-sortIcon field="totalItemPrice"></p-sortIcon>
             </th>
 
             <th width="80px"></th>
@@ -62,29 +40,24 @@
         </ng-template>
         <ng-template pTemplate="body" let-product>
           <tr>
-            <td>
+            <td style="width: 3rem">
               <p-tableCheckbox [value]="product"></p-tableCheckbox>
             </td>
 
-            <td style="width: 14%; min-width: 10rem">
+            <td style=" min-width: 10rem">
               <span class="p-column-title">Name</span>
-              {{ product.product?.name }}
+              <img [src]="product?.image" width="100" class="shadow-4" />
+              {{ product.name }}
+
             </td>
-            <td style="width: 14%; min-width: 10rem">
-              <span class="p-column-title">Image</span>
-              <img [src]="product?.images" width="100" class="shadow-4" />
-            </td>
-            <td>
-              <span>
-                {{ product.brand?.name }}
-              </span>
-            </td>
+
+
             <td style="width: 14%; min-width: 8rem">
               <span class="p-column-title">Price</span>
-              {{ product.product.price | currency : "VND" }}
+              {{ product.unitPrice | currency : "VND" }}
             </td>
             <td style="width: 14%; min-width: 10rem">
-              <span class="p-column-title">Quantity</span>
+              <span class="p-column-title ">Quantity</span>
               {{ product.quantity }}
             </td>
             <td style="width: 14%; min-width: 10rem">
@@ -94,22 +67,17 @@
 
             <td>
               <div class="flex">
-                <button
-                  pButton
-                  pRipple
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-warning"
-                  (click)="$event.stopPropagation(); removeItem(product)"
-                ></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="$event.stopPropagation(); removeItem(product)"></button>
               </div>
             </td>
           </tr>
         </ng-template>
       </p-table>
     </div>
-    <div class="card fixed-bottom mb-2">
+    <div class="fixed-bottom" style="z-index: 100; opacity: 1;">
       <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" (click)="onCheckOut()">
+        <button [disabled]="selectedProducts.length === 0" class="btn btn-primary" (click)="onCheckOut()">
           Check out
         </button>
       </div>

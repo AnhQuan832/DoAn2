@@ -6,33 +6,42 @@ import { StorageService } from 'src/app/core/service/storage.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.less']
+  styleUrls: ['./cart.component.less'],
 })
 export class CartComponent implements OnInit {
   cart;
   cartId;
   selectedProducts: any[] = [];
-  constructor(private cartService: CartService, private storageService: StorageService, private router: Router) { }
+  isLogin: boolean = false;
+  constructor(
+    private cartService: CartService,
+    private storageService: StorageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe({
-      next: (res) => {
-        this.cart = res.cartItemList;
-        this.storageService.setItemLocal("cart", this.cart)
-      },
-      error: () => console.log("error")
-    })
+    this.isLogin = this.storageService.getDataFromCookie('jwtToken');
+    if (this.isLogin)
+      this.cartService.getCart().subscribe({
+        next: (res) => {
+          this.cart = res;
+          const localCart = this.storageService.getItemLocal('cart');
+          if (localCart) {
+            this.cart.push(...localCart);
+          }
+        },
+        error: () => console.log('error'),
+      });
+    else this.router.navigate(['/auth/login']);
   }
-  removeItem(data) {
-
-  }
+  removeItem(data) {}
 
   onGlobalFilter(cart: any, event: Event) {
     cart.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   onCheckOut() {
-    this.router.navigate(['/user/check-out'])
+    this.storageService.setItemLocal('cart', this.selectedProducts);
+    this.router.navigate(['/user/check-out']);
   }
-
 }
