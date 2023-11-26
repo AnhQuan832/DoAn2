@@ -4,6 +4,9 @@ import { UserLayoutComponent } from './user-layout.component';
 import { LandingComponent } from './landing/landing.component';
 import { ShopViewComponent } from './shop-view/shop-view.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CartComponent } from './cart/cart.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CheckOutComponent } from './check-out/check-out.component';
 
 const routes: Routes = [
   {
@@ -26,7 +29,19 @@ const routes: Routes = [
       {
         path: 'product-detail/:id',
         component: ProductDetailComponent
-      }
+      },
+      {
+        path: 'cart',
+        component: CartComponent
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent
+      },
+      {
+        path: 'check-out',
+        component: CheckOutComponent
+      },
     ]
   }
 ];

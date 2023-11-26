@@ -1,0 +1,93 @@
+<div class="check-out d-flex p-4 gap-4">
+  <div class="col-7 p-4 card">
+    <h3>Pescue Shop</h3>
+    <div class="personal">
+      <span>
+        <h6 class="mt-1">Name</h6>
+        <input class="inputtext w-100 ps-2  form-control" name="name" pInputText />
+      </span>
+      <span>
+        <h6 class="mt-1">Phone</h6>
+        <input class="inputtext w-100 ps-2  form-control" name="phone" pInputText />
+      </span>
+    </div>
+    <div class="address-container personal  my-2 ">
+      <span class="p-float-label w-100">
+        <h6 class="mt-1 p-1 ps-0">Address</h6>
+        <input class="inputtext ps-1 w-100" type="text" />
+      </span>
+      <span class="p-float-label w-100">
+        <h6 class="mt-1 p-1 ps-0">Province/ City</h6>
+        <p-dropdown [options]="listProvince" [filter]="true" [autoDisplayFirst]="false" optionLabel="provName"
+          filterBy="provName" [(ngModel)]="selectedProvince" (onChange)="provinceSelectedChange($event.value)">
+        </p-dropdown>
+      </span>
+      <span class="p-float-label w-100">
+        <h6 class="mt-1 p-1 ps-0">District</h6>
+        <p-dropdown [filter]="true" [autoDisplayFirst]="false" optionLabel="distName" filterBy="distName"
+          [options]="listDistrict" [(ngModel)]="selectedDistrict" (onChange)="districtSelectedChange($event.value)">
+        </p-dropdown>
+      </span>
+      <span class="p-float-label w-100">
+        <h6 class="mt-1 p-1 ps-0">Ward</h6>
+        <p-dropdown [options]="listWard" [(ngModel)]="selectedWard" [autoDisplayFirst]="false" filterBy="wardName"
+          optionLabel="wardName" (onChange)="wardSelectChange($event.value)">
+        </p-dropdown>
+      </span>
+
+      <span *ngIf="selectedWard" class="p-float-label">
+        <h6 class="mt-2 p-1 ps-0">Shipping Serive</h6>
+        <div class="d-flex align-items-center" *ngFor="let item of shipService">
+          <div *ngIf="item.price > 0">
+            <p-radioButton name="pizza" value="Cheese" [(ngModel)]="selectedShipping"
+              inputId="{{item.service_type_id}}"></p-radioButton>
+            <label for="{{item.service_type_id}}" class="ms-2 position-relative"> {{item.name}} ({{item.price |
+              currency:
+              "VND"}})</label>
+          </div>
+        </div>
+      </span>
+    </div>
+  </div>
+  <div *ngIf="cartItem" class="col-5 card p-4">
+    <div class="items ">
+      <div *ngFor="let item of cartItem" class="d-flex justify-content-between align-items-center">
+        <div class="item-name d-flex justify-content-start align-items-center gap-4">
+          <img width="60px" [src]="item?.image" alt="">
+          <h6>{{item.name}}</h6>
+        </div>
+        <span>{{item.totalItemPrice | currency: "VND"}}</span>
+      </div>
+    </div>
+    <p-divider type="solid" class="my-4"></p-divider>
+    <div class="voucher">
+      <span class="my-4  ">
+        <h6>Voucher</h6>
+        <div class="d-flex align-items-center gap-2">
+          <input class="inputtext w-50 ps-2 mt-0 form-control" name="emailInput" type="email" pInputText />
+          <button class="btn btn-primary" style="width: fit-content; height: 40px">
+            Apply voucher
+          </button>
+        </div>
+      </span>
+    </div>
+    <p-divider type="solid" class="my-4"></p-divider>
+    <div class="shipping">
+      <span class=" d-flex justify-content-between">
+        <h6>Order Payment</h6>
+        <h6>{{totalPrice| currency: "VND"}}</h6>
+      </span>
+      <span class=" d-flex justify-content-between">
+        <h6>Shipping Fee</h6>
+        <h6>{{selectedShipping?.price || shipService[0].price | currency: "VND"}}</h6>
+      </span>
+    </div>
+    <p-divider type="solid" class="my-2"></p-divider>
+    <span class=" d-flex justify-content-between">
+      <h6>Total</h6>
+      <h6>{{selectedShipping?.price || shipService[0].price + totalPrice | currency: "VND"}}</h6>
+    </span>
+    <button class="btn btn-primary mt-2 mx-auto">Place Order</button>
+  </div>
+
+</div>

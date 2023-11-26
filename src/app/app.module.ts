@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserLayoutComponent } from './layout/user-layout/user-layout.component';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,9 +17,11 @@ import { UserLayoutComponent } from './layout/user-layout/user-layout.component'
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ToastModule,
+    BrowserAnimationsModule
 
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -35,5 +36,10 @@ export class StorageService {
       if (val.indexOf(name) === 0) res = val.substring(name.length);
     })
     return res;
+  }
+  getHttpHeader(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.getDataFromCookie("jwtToken")}`,
+    });
   }
 }

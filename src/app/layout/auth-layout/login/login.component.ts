@@ -16,18 +16,18 @@ import { StorageService } from 'src/app/core/service/storage.service';
 export class LoginComponent {
 
   isSubmitted = false;
+  msgError: string;
   private accessToken = '';
   constructor(
     private socialLoginService: SocialAuthService,
     private builder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-
     private storageService: StorageService,
   ) { }
 
   loginForm = this.builder.group({
-    userEmail: this.builder.control('', [Validators.required, this.emailValidator('admin')]),
+    userEmail: this.builder.control('', [Validators.required]),
     userPassword: this.builder.control('', [Validators.required])
   })
   ngOnInit(): void {
@@ -38,13 +38,16 @@ export class LoginComponent {
     this.socialLoginService.authState.subscribe(
       (user) => {
         this.authService.loginGoogle(user).subscribe(
-          response => {
-            const user: any = response
-            console.log(user.userRoles.includes("ROLE_SHELTER_MANAGER"))
-            if (user.userRoles.includes("ROLE_SHELTER_MANAGER"))
-              this.router.navigate(['/shelter/landing'])
-            else
-              this.router.navigate(['/user/landing'])
+          res => {
+            if (typeof res === 'string') {
+              this.msgError = res;
+              return
+            }
+            const { jwtToken, ...userInfo } = res
+            this.storageService.setItemLocal("userInfo", userInfo)
+            this.storageService.setTimeResetTokenCookie("jwtToken", jwtToken)
+            this.router.navigate(['/user/home'])
+
           }
         )
       });
@@ -54,20 +57,19 @@ export class LoginComponent {
     this.isSubmitted = true;
     if (this.loginForm.valid)
       this.authService.login(this.loginForm.value.userEmail, this.loginForm.value.userPassword).subscribe({
-        next: (user) => {
-          const { jwtToken, ...userInfo } = user
+        next: (res) => {
+          if (typeof res === 'string') {
+            this.msgError = res;
+            return
+          }
+          const { jwtToken, ...userInfo } = res
           this.storageService.setItemLocal("userInfo", userInfo)
           this.storageService.setTimeResetTokenCookie("jwtToken", jwtToken)
+          this.router.navigate(['/user/home'])
 
-          if (userInfo.userRoles[0].roleName === 'ROLE_CUSTOMER')
-            this.router.navigate(['/user/home'])
-          else if (userInfo.userRoles[0].roleName === 'ROLE_ADMIN')
-            this.router.navigate(['/admin/dashboard'])
         },
-        error: (err) => console.log(err.data),
+        error: (err) => console.log(err),
       })
-
-
   }
 
   getAccessToken(): void {
@@ -85,7 +87,7 @@ export class LoginComponent {
 
 
   clearErrorNotification() {
-
+    this.isSubmitted = false;
   }
 
   emailValidator(exceptionEmail: string): ValidatorFn {

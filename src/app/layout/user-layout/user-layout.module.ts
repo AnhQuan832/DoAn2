@@ -15,7 +15,19 @@ import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { DataViewModule } from 'primeng/dataview';
-
+import { GalleriaModule } from 'primeng/galleria';
+import { RatingModule } from 'primeng/rating';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckOutComponent } from './check-out/check-out.component';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DividerModule } from 'primeng/divider';
 @NgModule({
   declarations: [
     LandingComponent,
@@ -23,7 +35,8 @@ import { DataViewModule } from 'primeng/dataview';
     ProductDetailComponent,
     UserProfileComponent,
     CartComponent,
-    UserLayoutComponent
+    UserLayoutComponent,
+    CheckOutComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +46,19 @@ import { DataViewModule } from 'primeng/dataview';
     ButtonModule,
     TagModule,
     FormsModule,
-    DataViewModule
-  ]
+    DataViewModule,
+    GalleriaModule,
+    RatingModule,
+    InputNumberModule,
+    TableModule,
+    DialogModule,
+    ToastModule,
+    ToolbarModule,
+    InputTextModule,
+    DropdownModule,
+    RadioButtonModule,
+    DividerModule,
+  ],
+  providers: [MessageService, ConfirmationService],
 })
-export class UserLayoutModule { }
+export class UserLayoutModule {}
