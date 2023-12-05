@@ -1,20 +1,26 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
 
-import { GoogleLoginProvider, FacebookLoginProvider } from "@abacritt/angularx-social-login";
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from '@abacritt/angularx-social-login';
 import { StorageService } from 'src/app/core/service/storage.service';
-
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less']
+  styleUrls: ['./login.component.less'],
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
   isSubmitted = false;
   msgError: string;
   private accessToken = '';
@@ -23,58 +29,61 @@ export class LoginComponent {
     private builder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private storageService: StorageService,
-  ) { }
+    private storageService: StorageService
+  ) {}
 
   loginForm = this.builder.group({
     userEmail: this.builder.control('', [Validators.required]),
-    userPassword: this.builder.control('', [Validators.required])
-  })
+    userPassword: this.builder.control('', [Validators.required]),
+  });
   ngOnInit(): void {
-    this.loginWithGoogle()
+    this.loginWithGoogle();
+    document.cookie =
+      'jwtToken' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   }
 
   loginWithGoogle() {
-    this.socialLoginService.authState.subscribe(
-      (user) => {
-        this.authService.loginGoogle(user).subscribe(
-          res => {
-            if (typeof res === 'string') {
-              this.msgError = res;
-              return
-            }
-            const { jwtToken, ...userInfo } = res
-            this.storageService.setItemLocal("userInfo", userInfo)
-            this.storageService.setTimeResetTokenCookie("jwtToken", jwtToken)
-            this.router.navigate(['/user/home'])
-
-          }
-        )
+    this.socialLoginService.authState.subscribe((user) => {
+      this.authService.loginGoogle(user).subscribe((res) => {
+        if (typeof res === 'string') {
+          this.msgError = res;
+          return;
+        }
+        const { jwtToken, ...userInfo } = res;
+        this.storageService.setItemLocal('userInfo', userInfo);
+        this.storageService.setTimeResetTokenCookie('jwtToken', jwtToken);
+        this.router.navigate(['/user/home']);
       });
+    });
   }
 
   login() {
     this.isSubmitted = true;
     if (this.loginForm.valid)
-      this.authService.login(this.loginForm.value.userEmail, this.loginForm.value.userPassword).subscribe({
-        next: (res) => {
-          if (typeof res === 'string') {
-            this.msgError = res;
-            return
-          }
-          const { jwtToken, ...userInfo } = res
-          this.storageService.setItemLocal("userInfo", userInfo)
-          this.storageService.setTimeResetTokenCookie("jwtToken", jwtToken)
-          this.router.navigate(['/user/home'])
-
-        },
-        error: (err) => console.log(err),
-      })
+      this.authService
+        .login(
+          this.loginForm.value.userEmail,
+          this.loginForm.value.userPassword
+        )
+        .subscribe({
+          next: (res) => {
+            if (typeof res === 'string') {
+              this.msgError = res;
+              return;
+            }
+            const { jwtToken, ...userInfo } = res;
+            this.storageService.setItemLocal('userInfo', userInfo);
+            this.storageService.setTimeResetTokenCookie('jwtToken', jwtToken);
+            this.router.navigate(['/user/home']);
+          },
+          error: (err) => console.log(err),
+        });
   }
 
   getAccessToken(): void {
-    this.socialLoginService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(
-      accessToken => this.accessToken = accessToken);
+    this.socialLoginService
+      .getAccessToken(GoogleLoginProvider.PROVIDER_ID)
+      .then((accessToken) => (this.accessToken = accessToken));
   }
   public signOut(): void {
     this.socialLoginService.signOut();
@@ -82,9 +91,6 @@ export class LoginComponent {
   refreshToken(): void {
     this.socialLoginService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
   }
-
-
-
 
   clearErrorNotification() {
     this.isSubmitted = false;
@@ -102,5 +108,4 @@ export class LoginComponent {
       }
     };
   }
-
 }

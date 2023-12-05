@@ -56,9 +56,12 @@
               <span class="p-column-title">Price</span>
               {{ product.unitPrice | currency : "VND" }}
             </td>
-            <td style="width: 14%; min-width: 10rem">
+            <td style="width: 14%; min-width: 10rem" class="num-product">
               <span class="p-column-title ">Quantity</span>
-              {{ product.quantity }}
+              <p-inputNumber [(ngModel)]="product.quantity" [showButtons]="true" buttonLayout="horizontal"
+                inputId="horizontal" spinnerMode="horizontal" [step]="1" incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus" [min]="1" [max]="100"
+                (onInput)="onChangeQty(product,$event.value)"></p-inputNumber>
             </td>
             <td style="width: 14%; min-width: 10rem">
               <span class="p-column-title">Total</span>

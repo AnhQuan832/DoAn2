@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, catchError, lastValueFrom, map } from 'rxjs';
+import { API } from '../constants/enum';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,10 @@ export class AddressService {
   private shop_id = '4723073';
   private service_id = 53321;
   private from_district_id = 1442;
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private storageSerive: StorageService
+  ) {}
 
   getProvinces(): Observable<any> {
     return this.http.get(this.baseUrl + 'province', {
@@ -64,5 +69,43 @@ export class AddressService {
         headers: { token: this.token, shop_id: this.shop_id },
       }
     );
+  }
+
+  addAddress(data) {
+    return this.http
+      .post(API.USER.END_POINT.ADDRESS, data, {
+        headers: this.storageSerive.getHttpHeader(),
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
+
+  getAddress() {
+    return this.http
+      .get(API.USER.END_POINT.ADDRESS, {
+        headers: this.storageSerive.getHttpHeader(),
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.addressList;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
   }
 }

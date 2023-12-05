@@ -39,4 +39,15 @@ export const API = {
       GET_PRODUCT_SUCCESS: '0_2_s',
     },
   },
+  USER: {
+    END_POINT: {
+      ADDRESS: API_URL + 'user/address',
+    },
+  },
+  PAYMENT: {
+    END_POINT: {
+      CHECK_OUT: API_URL + 'payment/user-cart-checkout',
+      INFO: API_URL + 'payment/payment-info',
+    },
+  },
 };

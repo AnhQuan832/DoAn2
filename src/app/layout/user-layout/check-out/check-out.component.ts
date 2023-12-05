@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AddressService } from 'src/app/core/service/address.service';
 import { CartService } from 'src/app/core/service/cart.service';
+import { InvoiceService } from 'src/app/core/service/invoice.service';
 import { StorageService } from 'src/app/core/service/storage.service';
 
 @Component({
@@ -21,6 +24,8 @@ export class CheckOutComponent implements OnInit {
       price: 0,
     },
   ];
+
+  paymentType = ['CREDIT_CARD'];
   listProvince: any[] = [];
   listDistrict: any[] = [];
   listWard: any[] = [];
@@ -31,10 +36,17 @@ export class CheckOutComponent implements OnInit {
   selectedShipping: any;
   cartItem;
   totalPrice;
+  isAddNewAddress: boolean = false;
+  listAddress: any[] = [];
+  selectedAdd: any;
+  checkOutForm: FormGroup;
   constructor(
     private apiAddress: AddressService,
     private cartService: CartService,
-    private storageSerive: StorageService
+    private storageSerive: StorageService,
+    private fb: FormBuilder,
+    private invoiceService: InvoiceService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.bindProvinces();
@@ -42,6 +54,29 @@ export class CheckOutComponent implements OnInit {
     this.totalPrice = this.cartItem.reduce((acc, currentItem) => {
       return acc + currentItem.totalItemPrice;
     }, 0);
+    this.getListAddress();
+    this.checkOutForm = this.fb.group({
+      recipientName: this.fb.control('', [Validators.required]),
+      phoneNumber: this.fb.control('', [Validators.required]),
+      paymentType: this.fb.control(''),
+      returnUrl: this.fb.control(''),
+      address: this.fb.group({
+        userId: this.fb.control(''),
+        addressId: this.fb.control(''),
+        streetName: this.fb.control('', [Validators.required]),
+        cityName: this.fb.control('', [Validators.required]),
+        districtName: this.fb.control('', [Validators.required]),
+        wardName: this.fb.control('', [Validators.required]),
+      }),
+    });
+  }
+
+  getListAddress() {
+    this.apiAddress.getAddress().subscribe({
+      next: (res) => {
+        this.listAddress = res;
+      },
+    });
   }
 
   bindProvinces() {
@@ -60,6 +95,7 @@ export class CheckOutComponent implements OnInit {
   }
 
   provinceSelectedChange(selectedValue) {
+    // this.checkOutForm.patchValue({ city: selectedValue.provName });
     let foundProvince = this.listProvince.find(
       (item) => item.provName == selectedValue.provName
     );
@@ -83,6 +119,8 @@ export class CheckOutComponent implements OnInit {
   }
 
   districtSelectedChange(selectedValue) {
+    // this.checkOutForm.patchValue({ district: selectedValue.distName });
+
     this.apiAddress
       .getWardsByDistrict(selectedValue.distCode)
       .subscribe((response) => {
@@ -100,6 +138,8 @@ export class CheckOutComponent implements OnInit {
   }
 
   async wardSelectChange(selectedValue) {
+    // this.checkOutForm.patchValue({ ward: selectedValue.wardName });
+
     await this.apiAddress
       .getShippingService(this.selectedDistrict.distCode)
       .then((res: any) => {
@@ -132,4 +172,38 @@ export class CheckOutComponent implements OnInit {
   }
 
   shippingServiceChange(selectedValue) {}
+
+  onCheckOut() {
+    this.checkOutForm.patchValue({ address: this.selectedAdd });
+    this.checkOutForm.patchValue({ paymentType: 'CREDIT_CARD' });
+    this.checkOutForm.patchValue({
+      returnUrl: 'http://localhost:4200/user/cart',
+    });
+
+    this.invoiceService.processPayment(this.checkOutForm.value).subscribe({
+      next: (res) => {
+        console.log(res);
+        window.open(res);
+      },
+    });
+  }
+
+  onAddress() {
+    if (this.isAddNewAddress) {
+      const address = {
+        userId: this.storageSerive.getItemLocal('userInfo')?.userId,
+        streetName: this.checkOutForm.value.address.streetName,
+        cityName: this.selectedProvince.provName,
+        districtName: this.selectedDistrict.distName,
+        wardName: this.selectedWard.wardName,
+      };
+      this.apiAddress.addAddress(address).subscribe({
+        next: (res) => {
+          this.listAddress.push(res);
+        },
+      });
+    } else {
+      this.isAddNewAddress = !this.isAddNewAddress;
+    }
+  }
 }

@@ -8,14 +8,15 @@ import { AuthLayoutRoutingModule } from './auth-layout-routing.module';
 import { LoginComponent } from './login/login.component';
 import { AuthLayoutComponent } from './auth-layout.component';
 
-
 //primeNG module
 import { DividerModule } from 'primeng/divider';
-import { PasswordModule } from "primeng/password";
+import { PasswordModule } from 'primeng/password';
 
 //other module
 import {
-  GoogleLoginProvider, SocialLoginModule, SocialAuthServiceConfig
+  GoogleLoginProvider,
+  SocialLoginModule,
+  SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { RegisterComponent } from './register/register.component';
@@ -26,7 +27,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     LoginComponent,
     AuthLayoutComponent,
     RegisterComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -38,25 +39,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     PasswordModule,
 
     SocialLoginModule,
-    GoogleSigninButtonModule
+    GoogleSigninButtonModule,
   ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '862554826072-hh67j8al3nlhopa5hnsu27m7p7fu5gr6.apps.googleusercontent.com'
-            )
-          }
-        ],
-        onError: (err) => {
-          console.error(err);
-        }
-      } as SocialAuthServiceConfig,
-    }]
 })
-export class AuthLayoutModule { }
+export class AuthLayoutModule {}

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UserLayoutRoutingModule } from './user-layout-routing.module';
 import { LandingComponent } from './landing/landing.component';
@@ -46,6 +46,7 @@ import { DividerModule } from 'primeng/divider';
     ButtonModule,
     TagModule,
     FormsModule,
+    ReactiveFormsModule,
     DataViewModule,
     GalleriaModule,
     RatingModule,
