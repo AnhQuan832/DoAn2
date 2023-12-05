@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -28,5 +29,6 @@ import { MenuModule } from 'primeng/menu';
     MenuModule,
   ],
   exports: [FooterComponent, NavBarComponent, ProductCardComponent],
+  providers: [SocialAuthService],
 })
 export class SharedModule {}

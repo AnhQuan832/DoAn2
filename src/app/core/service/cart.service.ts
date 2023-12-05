@@ -34,7 +34,7 @@ export class CartService {
       );
   }
 
-  addToCart(quantity, totalItemPrice, varietyId) {
+  addToCart(quantity, varietyId, totalItemPrice?) {
     return this.http
       .post(
         API.CART.END_POINT.ADD_TO_CART,

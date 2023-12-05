@@ -36,7 +36,10 @@
         </div>
 
         <h5 class="mt-2">{{ attPrice | currency: 'VND' }}</h5>
-        <h5 class="mt-4"><b>Brand:</b> {{ product.brand.name }}</h5>
+        <div class="size attribute mt-4">
+          <h5 class="mt-4"><b [style.width.px]="80">Brand:</b> </h5>
+          <h5 class="mt-4">{{ product.brand.name }}</h5>
+        </div>
 
         <div class="size attribute mt-4" *ngIf="listSize.length > 0">
           <h5 class="mt-2"><b>Size</b></h5>
@@ -54,17 +57,18 @@
           </div>
         </div>
         <div class="size attribute mt-4" *ngIf="listSize.length > 0">
-          <h5 class="mt-2"><b>Size</b></h5>
+          <h5 class="mt-2"><b>Amount</b></h5>
           <p-inputNumber [(ngModel)]="numberOfProduct" [showButtons]="true" buttonLayout="horizontal"
             inputId="horizontal" spinnerMode="horizontal" [step]="1" incrementButtonIcon="pi pi-plus"
             decrementButtonIcon="pi pi-minus" [min]="1" [max]="100" (onInput)="onChangeQty($event)"></p-inputNumber>
+          <small *ngIf="isDisableBuy" class="text-danger w-100">Over stock</small>
         </div>
 
       </div>
 
       <div class="button-group pt-4 ps-4 d-flex gap-2">
-        <button class="btn btn-primary">Buy now</button>
-        <button class="btn btn-secondary" (click)="addToCart()">Add to cart</button>
+        <button [disabled]="isDisableBuy" class="btn btn-primary">Buy now</button>
+        <button [disabled]="isDisableBuy" class="btn btn-secondary" (click)="addToCart()">Add to cart</button>
       </div>
     </div>
   </div>

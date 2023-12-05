@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
@@ -11,8 +12,11 @@ export class NavBarComponent {
   isLoggin = true;
   items: MenuItem[] = [
     {
-      label: 'New',
+      label: 'Profile',
       icon: 'pi pi-user',
+      command: () => {
+        this.router.navigate(['/user/profile']);
+      },
     },
     {
       label: 'Log out',
@@ -23,9 +27,13 @@ export class NavBarComponent {
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private socialLoginService: SocialAuthService
+  ) {}
 
   routeToCart() {
+    this.socialLoginService.signOut();
     this.router.navigate(['/user/cart']);
   }
 }

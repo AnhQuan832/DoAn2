@@ -26,6 +26,7 @@ export class ProductDetailComponent implements OnInit {
   isActiveColor = false;
   isActiveSize = false;
   isLogin: boolean = false;
+  isDisableBuy: boolean = false;
   constructor(
     private storageService: StorageService,
     private router: Router,
@@ -115,7 +116,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onChangeQty(event) {
-    this.attPrice = this.selectedVariety.price * event.value;
+    if (event.value > this.selectedVariety.stockAmount) {
+      this.numberOfProduct = this.selectedVariety.stockAmount;
+      this.isDisableBuy = true;
+    } else {
+      this.attPrice = this.selectedVariety.price * event.value;
+      this.isDisableBuy = false;
+    }
   }
 
   addToCart() {
@@ -126,11 +133,7 @@ export class ProductDetailComponent implements OnInit {
     };
     if (this.isLogin) {
       this.cartService
-        .addToCart(
-          this.numberOfProduct,
-          this.attPrice,
-          this.selectedVariety.varietyId
-        )
+        .addToCart(this.numberOfProduct, this.selectedVariety.varietyId)
         .subscribe({
           next: (res) =>
             this.messageSerice.add({
@@ -140,7 +143,7 @@ export class ProductDetailComponent implements OnInit {
             }),
         });
     } else {
-      let localCart = this.storageService.getItemLocal('localCart')?.cartId;
+      let localCart = this.storageService.getItemLocal('localCart');
       if (!localCart) {
         localCart = [];
       }
