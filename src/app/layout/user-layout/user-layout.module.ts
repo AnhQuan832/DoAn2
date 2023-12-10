@@ -28,6 +28,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DividerModule } from 'primeng/divider';
+import { ChatComponent } from './chat/chat.component';
+import { AvatarModule } from 'primeng/avatar';
+
 @NgModule({
   declarations: [
     LandingComponent,
@@ -37,6 +40,7 @@ import { DividerModule } from 'primeng/divider';
     CartComponent,
     UserLayoutComponent,
     CheckOutComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +63,7 @@ import { DividerModule } from 'primeng/divider';
     DropdownModule,
     RadioButtonModule,
     DividerModule,
+    AvatarModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

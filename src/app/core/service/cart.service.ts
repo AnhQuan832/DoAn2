@@ -55,6 +55,25 @@ export class CartService {
       );
   }
 
+  selectItem(itemId) {
+    return this.http
+      .post(API.CART.END_POINT.SELECT_CART_ITEM + `/${itemId}`, null, {
+        headers: this.storageService.getHttpHeader(),
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return true;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
+
   getShippingFee(data) {
     return this.shippingService.getShippingFee(data);
   }

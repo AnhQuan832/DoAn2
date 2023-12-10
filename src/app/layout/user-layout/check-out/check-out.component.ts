@@ -39,6 +39,8 @@ export class CheckOutComponent implements OnInit {
   isAddNewAddress: boolean = false;
   listAddress: any[] = [];
   selectedAdd: any;
+  voucherOption: any[] = [];
+  selectedVoucher;
   checkOutForm: FormGroup;
   constructor(
     private apiAddress: AddressService,
@@ -49,6 +51,11 @@ export class CheckOutComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
+    this.invoiceService.getVoucher().subscribe({
+      next: (res) => {
+        this.voucherOption = res;
+      },
+    });
     this.bindProvinces();
     this.cartItem = this.storageSerive.getItemLocal('cart');
     this.totalPrice = this.cartItem.reduce((acc, currentItem) => {
@@ -60,6 +67,7 @@ export class CheckOutComponent implements OnInit {
       phoneNumber: this.fb.control('', [Validators.required]),
       paymentType: this.fb.control(''),
       returnUrl: this.fb.control(''),
+      voucher: this.fb.control(''),
       address: this.fb.group({
         userId: this.fb.control(''),
         addressId: this.fb.control(''),
@@ -80,7 +88,7 @@ export class CheckOutComponent implements OnInit {
   }
 
   bindProvinces() {
-    this.apiAddress.getProvinces().subscribe((response) => {
+    this.apiAddress.getProvinces().then((response: any) => {
       const rListProvince = response.data;
       this.listProvince = rListProvince.map((rListProvince) => {
         return {
@@ -94,14 +102,14 @@ export class CheckOutComponent implements OnInit {
       };
   }
 
-  provinceSelectedChange(selectedValue) {
+  async provinceSelectedChange(selectedValue) {
     // this.checkOutForm.patchValue({ city: selectedValue.provName });
     let foundProvince = this.listProvince.find(
       (item) => item.provName == selectedValue.provName
     );
-    this.apiAddress
+    await this.apiAddress
       .getDisctrictsByProvince(foundProvince.provCode)
-      .subscribe((response) => {
+      .then((response: any) => {
         const rListDistrict = response.data;
         (this.listDistrict = rListDistrict.map((rListDistrict) => {
           return {
@@ -118,12 +126,12 @@ export class CheckOutComponent implements OnInit {
       };
   }
 
-  districtSelectedChange(selectedValue) {
+  async districtSelectedChange(selectedValue) {
     // this.checkOutForm.patchValue({ district: selectedValue.distName });
 
-    this.apiAddress
+    await this.apiAddress
       .getWardsByDistrict(selectedValue.distCode)
-      .subscribe((response) => {
+      .then((response: any) => {
         const rListWard = response.data;
         this.listWard = rListWard.map((rListWard) => {
           return {
@@ -176,11 +184,17 @@ export class CheckOutComponent implements OnInit {
   onCheckOut() {
     this.checkOutForm.patchValue({ address: this.selectedAdd });
     this.checkOutForm.patchValue({ paymentType: 'CREDIT_CARD' });
+    this.checkOutForm.patchValue({ voucher: this.selectedVoucher });
     this.checkOutForm.patchValue({
       returnUrl: 'http://localhost:4200/user/cart',
     });
 
-    this.invoiceService.processPayment(this.checkOutForm.value).subscribe({
+    const data = {
+      paymentInfoDTO: this.checkOutForm.value,
+      cartId: this.cartItem[0].cartId,
+    };
+
+    this.invoiceService.processPayment(data).subscribe({
       next: (res) => {
         console.log(res);
         window.open(res);
@@ -205,5 +219,44 @@ export class CheckOutComponent implements OnInit {
     } else {
       this.isAddNewAddress = !this.isAddNewAddress;
     }
+  }
+  async changeAdd() {
+    await this.provinceSelectedChange({
+      provName: this.selectedAdd.cityName,
+    });
+    const dist = this.listDistrict.find(
+      (item) => item.distName === this.selectedAdd.districtName
+    );
+    await this.districtSelectedChange({ distCode: dist.distCode });
+    const ward = this.listWard.find(
+      (item) => item.wardName === this.selectedAdd.wardName
+    );
+    await this.apiAddress.getShippingService(dist.distCode).then((res: any) => {
+      this.listShippingService = res.data;
+    });
+    this.listShippingService.forEach((item, index) => {
+      const data = {
+        to_district_id: dist.distCode,
+        to_ward_code: ward.wardCode,
+        insurance_value: 500000,
+        service_id: item.service_id,
+        height: 15,
+        length: 15,
+        weight: 1000,
+        width: 15,
+        coupon: null,
+      };
+      this.cartService.getShippingFee(data).subscribe((res: any) => {
+        if (res.code === 200)
+          this.shipService.map((item) => {
+            if (
+              item.service_type_id ===
+              this.listShippingService[index].service_type_id
+            )
+              item.price = res.data.total;
+          });
+        console.log(this.shipService);
+      });
+    });
   }
 }

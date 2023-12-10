@@ -20,24 +20,30 @@ export class AddressService {
     private storageSerive: StorageService
   ) {}
 
-  getProvinces(): Observable<any> {
-    return this.http.get(this.baseUrl + 'province', {
-      headers: { token: this.token },
-    });
+  async getProvinces() {
+    return await this.http
+      .get(this.baseUrl + 'province', {
+        headers: { token: this.token },
+      })
+      .toPromise();
   }
 
-  getDisctrictsByProvince(provinceCode: string): Observable<any> {
-    return this.http.get(this.baseUrl + `district`, {
-      params: { province_id: provinceCode },
-      headers: { token: this.token },
-    });
+  async getDisctrictsByProvince(provinceCode: string) {
+    return await this.http
+      .get(this.baseUrl + `district`, {
+        params: { province_id: provinceCode },
+        headers: { token: this.token },
+      })
+      .toPromise();
   }
 
-  getWardsByDistrict(districtCode: string): Observable<any> {
-    return this.http.get(this.baseUrl + `ward`, {
-      params: { district_id: districtCode },
-      headers: { token: this.token },
-    });
+  async getWardsByDistrict(districtCode: string) {
+    return await this.http
+      .get(this.baseUrl + `ward`, {
+        params: { district_id: districtCode },
+        headers: { token: this.token },
+      })
+      .toPromise();
   }
 
   getShippingService(district_id) {

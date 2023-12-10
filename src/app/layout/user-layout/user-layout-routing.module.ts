@@ -7,12 +7,13 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { CartComponent } from './cart/cart.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CheckOutComponent } from './check-out/check-out.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/user/home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -20,34 +21,38 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: LandingComponent
+        component: LandingComponent,
       },
       {
         path: 'shop',
-        component: ShopViewComponent
+        component: ShopViewComponent,
       },
       {
         path: 'product-detail/:id',
-        component: ProductDetailComponent
+        component: ProductDetailComponent,
       },
       {
         path: 'cart',
-        component: CartComponent
+        component: CartComponent,
       },
       {
         path: 'profile',
-        component: UserProfileComponent
+        component: UserProfileComponent,
       },
       {
         path: 'check-out',
-        component: CheckOutComponent
+        component: CheckOutComponent,
       },
-    ]
-  }
+      {
+        path: 'message',
+        component: ChatComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserLayoutRoutingModule { }
+export class UserLayoutRoutingModule {}
