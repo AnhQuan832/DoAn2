@@ -28,6 +28,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DividerModule } from 'primeng/divider';
+import { ChatComponent } from './chat/chat.component';
+import { AvatarModule } from 'primeng/avatar';
+import { CalendarModule } from 'primeng/calendar';
+import { InvoiceHistoryComponent } from './invoice-history/invoice-history.component';
+import { TabViewModule } from 'primeng/tabview';
+
 @NgModule({
   declarations: [
     LandingComponent,
@@ -37,6 +43,8 @@ import { DividerModule } from 'primeng/divider';
     CartComponent,
     UserLayoutComponent,
     CheckOutComponent,
+    ChatComponent,
+    InvoiceHistoryComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +67,9 @@ import { DividerModule } from 'primeng/divider';
     DropdownModule,
     RadioButtonModule,
     DividerModule,
+    AvatarModule,
+    CalendarModule,
+    TabViewModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

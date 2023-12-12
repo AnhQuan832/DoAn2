@@ -34,6 +34,9 @@ export class CartComponent implements OnInit {
       next: (res) => {
         this.cart = res;
         this.originalData = _.cloneDeep(res);
+        this.selectedProducts = this.originalData.filter(
+          (item) => item.isSelected
+        );
       },
       error: () => console.log('error'),
     });
@@ -71,5 +74,12 @@ export class CartComponent implements OnInit {
           },
           error(err) {},
         });
+  }
+
+  selectItem(item) {
+    console.log(item);
+    this.cartService.selectItem(item.cartItemId).subscribe({
+      next: (res) => {},
+    });
   }
 }
