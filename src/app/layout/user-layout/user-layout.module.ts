@@ -30,6 +30,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { DividerModule } from 'primeng/divider';
 import { ChatComponent } from './chat/chat.component';
 import { AvatarModule } from 'primeng/avatar';
+import { CalendarModule } from 'primeng/calendar';
+import { InvoiceHistoryComponent } from './invoice-history/invoice-history.component';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { AvatarModule } from 'primeng/avatar';
     UserLayoutComponent,
     CheckOutComponent,
     ChatComponent,
+    InvoiceHistoryComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +68,8 @@ import { AvatarModule } from 'primeng/avatar';
     RadioButtonModule,
     DividerModule,
     AvatarModule,
+    CalendarModule,
+    TabViewModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

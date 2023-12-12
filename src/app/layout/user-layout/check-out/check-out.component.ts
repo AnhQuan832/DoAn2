@@ -41,6 +41,7 @@ export class CheckOutComponent implements OnInit {
   selectedAdd: any;
   voucherOption: any[] = [];
   selectedVoucher;
+  discount = 0;
   checkOutForm: FormGroup;
   constructor(
     private apiAddress: AddressService,
@@ -181,6 +182,13 @@ export class CheckOutComponent implements OnInit {
 
   shippingServiceChange(selectedValue) {}
 
+  voucherChange() {
+    if (this.selectedVoucher.type === 'PERCENTAGE') {
+      this.discount = (this.totalPrice * this.selectedVoucher.value) / 100;
+      if (this.discount > this.selectedVoucher.maxValue)
+        this.discount = this.selectedVoucher.maxValue;
+    } else this.discount = this.selectedVoucher.value;
+  }
   onCheckOut() {
     this.checkOutForm.patchValue({ address: this.selectedAdd });
     this.checkOutForm.patchValue({ paymentType: 'CREDIT_CARD' });
@@ -255,8 +263,8 @@ export class CheckOutComponent implements OnInit {
             )
               item.price = res.data.total;
           });
-        console.log(this.shipService);
       });
+      this.selectedShipping = this.listShippingService[0];
     });
   }
 }

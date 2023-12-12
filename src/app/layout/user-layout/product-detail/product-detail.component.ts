@@ -13,7 +13,7 @@ import { StorageService } from 'src/app/core/service/storage.service';
 export class ProductDetailComponent implements OnInit {
   product;
   listImg;
-  numberOfProduct = 1;
+  numberOfProduct = 0;
   isLoading = false;
   listVarieties;
   listColor: any[] = [];
@@ -52,8 +52,9 @@ export class ProductDetailComponent implements OnInit {
           this.listDetailVariety.push({ ...item, ...item.varietyAttributes });
         });
         this.product.varietyAttributeList.forEach((item) => {
-          if (item.type === 'SIZE') this.listSize.push(item);
-          else this.listColor.push(item);
+          if (item.type === 'SIZE')
+            this.listSize.push({ ...item, active: true });
+          else this.listColor.push({ ...item, active: true });
         });
       },
     });
@@ -84,12 +85,26 @@ export class ProductDetailComponent implements OnInit {
       item.removeAttribute('style');
     });
     event.srcElement.classList.add('active');
-    if (type === 'color') this.selectedColor = data;
-    else this.selectedSize = data;
+    if (type === 'color') {
+      this.selectedColor = data;
+      // const filter = this.listDetailVariety.filter((vari) => {
+      //   vari.varietyAttributes.some(
+      //     (att) => att.attributeId === this.selectedColor.attributeId
+      //   );
+      // });
+      const varietiesWithAttribute = this.listDetailVariety.filter((variety) =>
+        variety.varietyAttributes.some(
+          (attribute) =>
+            attribute.attributeId === this.selectedColor.attributeId
+        )
+      );
+      console.log(varietiesWithAttribute);
+    } else this.selectedSize = data;
     this.handleChangeAttribute();
   }
 
   handleChangeAttribute() {
+    this.numberOfProduct = 0;
     this.selectedVariety = this.listDetailVariety.find((item) => {
       if (this.selectedSize && this.selectedColor)
         return (

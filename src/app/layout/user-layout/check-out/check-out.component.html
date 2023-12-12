@@ -148,10 +148,13 @@
             [ngModelOptions]="{ standalone: true }"
             [(ngModel)]="selectedVoucher"
             [inputId]="item.voucherId"
+            [disabled]="item.minInvoiceValue > totalPrice"
+            (ngModelChange)="voucherChange()"
           ></p-radioButton>
           <label
             [for]="item.voucherId"
             class="ms-2 position-relative d-flex flex-column justify-content-start"
+            [ngClass]="{ disabled: item.minInvoiceValue > totalPrice }"
           >
             <p class="mb-0">
               <b>Discount:</b>
@@ -166,7 +169,8 @@
               }}
             </p>
             <p class="mb-2">
-              <b>Min order value:</b> {{ item.minInvoiceValue }}
+              <b>Min order value:</b>
+              {{ item.minInvoiceValue | currency : "VND" }}
             </p>
           </label>
         </div>
@@ -186,14 +190,20 @@
           }}
         </h6>
       </span>
+      <span class="d-flex justify-content-between">
+        <h6>Discount</h6>
+        <h6>
+          {{ -discount || 0 | currency : "VND" }}
+        </h6>
+      </span>
     </div>
     <p-divider type="solid" class="my-2"></p-divider>
     <span class="d-flex justify-content-between">
       <h6>Total</h6>
       <h6>
         {{
-          selectedShipping?.price || shipService[0].price + totalPrice
-            | currency : "VND"
+          selectedShipping?.price ||
+            shipService[0].price + totalPrice - discount | currency : "VND"
         }}
       </h6>
     </span>

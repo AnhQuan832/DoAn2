@@ -8,6 +8,7 @@ import { CartComponent } from './cart/cart.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { ChatComponent } from './chat/chat.component';
+import { InvoiceHistoryComponent } from './invoice-history/invoice-history.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'message',
         component: ChatComponent,
+      },
+      {
+        path: 'invoice-history',
+        component: InvoiceHistoryComponent,
       },
     ],
   },

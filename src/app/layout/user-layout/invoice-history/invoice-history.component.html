@@ -35,10 +35,6 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 3rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-
             <th>Product</th>
             <th pSortableColumn="unitPrice">
               Price <p-sortIcon field="unitPrice"></p-sortIcon>
@@ -49,19 +45,10 @@
             <th pSortableColumn="totalItemPrice">
               Total <p-sortIcon field="totalItemPrice"></p-sortIcon>
             </th>
-
-            <th width="80px"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
           <tr>
-            <td style="width: 3rem">
-              <p-tableCheckbox
-                [value]="product"
-                (click)="selectItem(product)"
-              ></p-tableCheckbox>
-            </td>
-
             <td style="min-width: 10rem">
               <span class="p-column-title">Name</span>
               <img [src]="product?.image" width="100" class="shadow-4" />
@@ -74,50 +61,15 @@
             </td>
             <td style="width: 14%; min-width: 10rem" class="num-product">
               <span class="p-column-title">Quantity</span>
-              <p-inputNumber
-                [(ngModel)]="product.quantity"
-                [showButtons]="true"
-                buttonLayout="horizontal"
-                inputId="horizontal"
-                spinnerMode="horizontal"
-                [step]="1"
-                incrementButtonIcon="pi pi-plus"
-                decrementButtonIcon="pi pi-minus"
-                [min]="1"
-                [max]="product.stockAmount"
-                (onInput)="onChangeQty(product, $event.value)"
-              ></p-inputNumber>
+              {{ product.quantity }}
             </td>
             <td style="width: 14%; min-width: 10rem">
               <span class="p-column-title">Total</span>
               {{ product.totalItemPrice | currency : "VND" }}
             </td>
-
-            <td>
-              <div class="flex">
-                <button
-                  pButton
-                  pRipple
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-warning"
-                  (click)="$event.stopPropagation(); removeItem(product)"
-                ></button>
-              </div>
-            </td>
           </tr>
         </ng-template>
       </p-table>
-    </div>
-    <div class="fixed-bottom" style="z-index: 100; opacity: 1">
-      <div class="d-flex justify-content-end">
-        <button
-          [disabled]="selectedProducts.length === 0"
-          class="btn btn-primary"
-          (click)="onCheckOut()"
-        >
-          Check out
-        </button>
-      </div>
     </div>
   </div>
 </div>

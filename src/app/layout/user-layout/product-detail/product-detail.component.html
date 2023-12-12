@@ -1,5 +1,7 @@
-<div *ngIf="isLoading"
-  class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3">
+<div
+  *ngIf="isLoading"
+  class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
+>
   <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
   </div>
@@ -7,17 +9,24 @@
 </div>
 <div class="container p-4">
   <div class="info d-flex gap-4">
-    <p-galleria [value]="product.images" [showItemNavigatorsOnHover]="true" [showItemNavigators]="true"
-      [containerStyle]="{ 'max-width': '640px', 'min-height': '500px' }">
+    <p-galleria
+      [value]="product.images"
+      [showItemNavigatorsOnHover]="true"
+      [showItemNavigators]="true"
+      [containerStyle]="{ 'max-width': '640px', 'min-height': '500px' }"
+    >
       <ng-template pTemplate="item" let-item>
-        <img [src]="item" style="
+        <img
+          [src]="item"
+          style="
             width: 80%;
             display: block;
             padding-bottom: 10px;
             min-height: 300px;
             object-fit: cover;
             border-radius: 5px;
-          " />
+          "
+        />
       </ng-template>
       <ng-template pTemplate="thumbnail" let-item>
         <div class="grid grid-nogutter justify-content-center">
@@ -32,43 +41,76 @@
           <h1 class="py-2">{{ product.name }}</h1>
         </div>
         <div class="product-rating">
-          <p-rating [(ngModel)]="product.avgRating" [readonly]="true" [cancel]="false"></p-rating>
+          <p-rating
+            [(ngModel)]="product.avgRating"
+            [readonly]="true"
+            [cancel]="false"
+          ></p-rating>
         </div>
 
-        <h5 class="mt-2">{{ attPrice | currency: 'VND' }}</h5>
+        <h5 class="mt-2">{{ attPrice | currency : "VND" }}</h5>
         <div class="size attribute mt-4">
-          <h5 class="mt-4"><b [style.width.px]="80">Brand:</b> </h5>
+          <h5 class="mt-4"><b [style.width.px]="80">Brand:</b></h5>
           <h5 class="mt-4">{{ product.brand.name }}</h5>
         </div>
 
         <div class="size attribute mt-4" *ngIf="listSize.length > 0">
           <h5 class="mt-2"><b>Size</b></h5>
-          <div class="size" *ngFor="let size of listSize" [id]="size.attributeId"
-            (click)="onAttribute($event, size, 'size')">
+          <div
+            class="size"
+            *ngFor="let size of listSize"
+            [id]="size.attributeId"
+            [ngClass]="{ disabled: !size.active }"
+            (click)="size.active ? onAttribute($event, size, 'size') : null"
+          >
             {{ size.name }}
           </div>
         </div>
         <div class="color attribute" *ngIf="listColor.length > 0">
           <h5 class="mt-2"><b>Color</b></h5>
 
-          <div class="color" *ngFor="let color of listColor" [id]="color.attributeId"
-            (click)="onAttribute($event, color, 'color')">
+          <div
+            class="color"
+            *ngFor="let color of listColor"
+            [id]="color.attributeId"
+            [ngClass]="{ disabled: !color.active }"
+            (click)="color.active ? onAttribute($event, color, 'color') : null"
+          >
             {{ color.name }}
           </div>
         </div>
         <div class="size attribute mt-4" *ngIf="listSize.length > 0">
           <h5 class="mt-2"><b>Amount</b></h5>
-          <p-inputNumber [(ngModel)]="numberOfProduct" [showButtons]="true" buttonLayout="horizontal"
-            inputId="horizontal" spinnerMode="horizontal" [step]="1" incrementButtonIcon="pi pi-plus"
-            decrementButtonIcon="pi pi-minus" [min]="1" [max]="100" (onInput)="onChangeQty($event)"></p-inputNumber>
-          <small *ngIf="isDisableBuy" class="text-danger w-100">Over stock</small>
+          <p-inputNumber
+            [(ngModel)]="numberOfProduct"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            inputId="horizontal"
+            spinnerMode="horizontal"
+            [step]="1"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            [min]="0"
+            [max]="selectedVariety.stockAmount || 0"
+            (onInput)="onChangeQty($event)"
+          ></p-inputNumber>
+          <small *ngIf="isDisableBuy" class="text-danger w-100"
+            >Over stock</small
+          >
         </div>
-
       </div>
 
       <div class="button-group pt-4 ps-4 d-flex gap-2">
-        <button [disabled]="isDisableBuy" class="btn btn-primary">Buy now</button>
-        <button [disabled]="isDisableBuy" class="btn btn-secondary" (click)="addToCart()">Add to cart</button>
+        <button [disabled]="isDisableBuy" class="btn btn-primary">
+          Buy now
+        </button>
+        <button
+          [disabled]="isDisableBuy"
+          class="btn btn-secondary"
+          (click)="addToCart()"
+        >
+          Add to cart
+        </button>
       </div>
     </div>
   </div>
@@ -77,7 +119,14 @@
       <h5><b>Detail</b></h5>
     </div>
     <div>
-      <textarea class="w-100" name="" id="textarea" pInputTextarea disabled="true"></textarea>
+      <textarea
+        class="w-100 p-4"
+        name=""
+        id="textarea"
+        pInputTextarea
+        disabled="true"
+        [(ngModel)]="product.description"
+      ></textarea>
     </div>
   </div>
 </div>

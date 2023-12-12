@@ -21,7 +21,7 @@ export class InvoiceService {
       .pipe(
         map((data: any) => {
           if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
-            return data.data;
+            return data.data.invoiceList;
           } else {
             throw new Error(data.meta);
           }
@@ -61,6 +61,25 @@ export class InvoiceService {
             return data.data.voucherList;
           } else {
             return [];
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
+
+  getPaymentDetail(id) {
+    return this.http
+      .get(API.INVOICE.END_POINT.INVOICE + `/${id}`, {
+        headers: this.storageService.getHttpHeader(),
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.invoiceItemList;
+          } else {
+            throw new Error(data.meta);
           }
         }),
         catchError((err) => {

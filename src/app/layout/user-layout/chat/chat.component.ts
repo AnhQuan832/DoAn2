@@ -67,6 +67,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   async sendMessage() {
+    this.message = 'Hello';
     if (this.message) {
       const currentDate = new Date();
       const timestamp = currentDate.getTime();
@@ -218,7 +219,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   public connect() {
-    let Sock = new SockJS('https://doan01-be-production.up.railway.app/ws');
+    let Sock = new SockJS('https://doan02-be-production.up.railway.app/ws');
     // let Sock = new SockJS('http://localhost:8080/ws');
 
     this.stompClient = over(Sock);
@@ -257,8 +258,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   sendValue(message) {
     if (this.stompClient) {
       var chatMessage = {
-        senderID: this.messageData.senderID,
-        recipientID: this.messageData.recipientID,
+        senderID: this.messageData.senderID || 'USER_1699792351661_gmNWp',
+        recipientID: this.messageData.recipientID || 'USER_1697033158735',
         content: message,
       };
       this.stompClient.send(
