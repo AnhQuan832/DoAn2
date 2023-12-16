@@ -70,6 +70,8 @@ import { TabViewModule } from 'primeng/tabview';
     AvatarModule,
     CalendarModule,
     TabViewModule,
+    ButtonModule,
+    RatingModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

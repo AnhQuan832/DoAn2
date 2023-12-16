@@ -133,4 +133,56 @@
       size="large"
     ></asl-google-signin-button>
   </form>
+
+  <form
+    *ngIf="verifyEmail"
+    class="login_container_form d-flex flex-column col-12 col-sm-6 col-lg-3 p-4 rounded-2"
+    [formGroup]="verifyForm"
+    (ngSubmit)="verify()"
+  >
+    <img
+      class="my-4 mx-auto w-75"
+      src="https://i.ibb.co/3h7wrgX/logo-removebg-preview.png"
+      alt="Logo"
+    />
+
+    <span class="my-2">
+      <h6>OTP</h6>
+
+      <input
+        class="inputtext w-100 ps-2 mt-1 form-control"
+        type="number"
+        maxlength="10"
+        formControlName="otp"
+        (focus)="clearErrorNotification()"
+      />
+      <div *ngIf="isSubmitted">
+        <small
+          class="text-danger"
+          *ngIf="registerForm.get('userPhoneNumber')?.hasError('pattern')"
+          >Please fill the correct phone number</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="registerForm.get('userPhoneNumber')?.hasError('required')"
+          >Phone number is required</small
+        >
+        <small class="text-danger text-center" *ngIf="msgError">{{
+          msgError
+        }}</small>
+        <small class="text-success text-center" *ngIf="msgSuccess"
+          >{{ msgSuccess }} <a href="/auth/login">Back to login</a></small
+        >
+      </div>
+    </span>
+
+    <div class="btn-container d-flex justify-content-center pt-4">
+      <button type="submit" class="btn btn-primary w-100 text-nowrap rounded-3">
+        Verify account
+      </button>
+    </div>
+    <p class="mx-auto my-2">
+      <a routerLink="/auth/login">Back to login</a>
+    </p>
+  </form>
 </div>

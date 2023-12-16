@@ -12,12 +12,17 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { RatingComponent } from './components/rating/rating.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ListboxModule } from 'primeng/listbox';
+import { ToastModule } from 'primeng/toast';
 @NgModule({
   declarations: [
     FooterComponent,
     NavBarComponent,
     ProductCardComponent,
     PageNotFoundComponent,
+    RatingComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +32,10 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
     FormsModule,
     TableModule,
     MenuModule,
+    RatingModule,
+    InputTextareaModule,
+    ListboxModule,
+    ToastModule,
   ],
   exports: [FooterComponent, NavBarComponent, ProductCardComponent],
   providers: [SocialAuthService],

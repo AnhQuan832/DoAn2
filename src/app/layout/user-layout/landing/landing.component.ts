@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/core/service/cart.service';
+import { ProductService } from 'src/app/core/service/product.service';
 import { StorageService } from 'src/app/core/service/storage.service';
 
 @Component({
@@ -8,9 +9,11 @@ import { StorageService } from 'src/app/core/service/storage.service';
   styleUrls: ['./landing.component.less'],
 })
 export class LandingComponent implements OnInit {
+  mostProd;
   constructor(
     private cartService: CartService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private productService: ProductService
   ) {}
   ngOnInit(): void {
     const localCart = this.storageService.getItemLocal('localCart');
@@ -20,5 +23,9 @@ export class LandingComponent implements OnInit {
       });
       localStorage.removeItem('localCart');
     }
+
+    this.productService.getProdMost(5).subscribe({
+      next: (res) => (this.mostProd = res),
+    });
   }
 }

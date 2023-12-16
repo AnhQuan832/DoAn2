@@ -15,9 +15,9 @@
           <span class="span">High Quality</span> Pet Food
         </h1>
 
-        <p class="hero-text">Sale up to 40% off today</p>
+        <p class="hero-text">Up to 40% Discount</p>
 
-        <a href="#" class="btn">Shop Now</a>
+        <!-- <button href="#" class="btn btn-secondary">Shop Now</button> -->
       </div>
     </section>
 
@@ -120,7 +120,7 @@
               </figure>
 
               <h3 class="h3">
-                <a href="#" class="card-title">Dog Sumpplements</a>
+                <a href="#" class="card-title">Sumpplements</a>
               </h3>
             </div>
           </li>
@@ -136,19 +136,18 @@
         - #PRODUCT
       -->
 
-    <section class="section product" id="shop" aria-label="product">
+    <section class="section mt-4 product" id="shop" aria-label="product">
       <div class="container mx-auto">
-        <h2 class="h2 section-title"><span class="span">Best</span> Seller</h2>
+        <h2 class="h2 section-title">Best Seller</h2>
 
         <ul class="grid-list">
-          <li>
+          <li *ngFor="let item of mostProd">
             <div class="product-card">
               <div
                 class="card-banner img-holder"
                 style="--width: 360; --height: 360"
               >
                 <img
-                  src="assets/imgs/product-1.jpg"
                   width="360"
                   height="360"
                   loading="lazy"
@@ -156,355 +155,28 @@
                   class="img-cover default"
                 />
                 <img
-                  src="assets/imgs/product-1_0.jpg"
                   width="360"
                   height="360"
                   loading="lazy"
                   alt="Commodo leo sed porta"
                   class="img-cover hover"
                 />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
               </div>
 
               <div class="card-content">
-                <div class="wrapper">
+                <!-- <div class="wrapper">
                   <div class="rating-wrapper"></div>
 
                   <span class="span">(1)</span>
-                </div>
+                </div> -->
 
                 <h3 class="h3">
-                  <a href="#" class="card-title">Commodo leo sed porta</a>
+                  <a href="#" class="card-title">{{ item.name }}</a>
                 </h3>
 
-                <data class="card-price" value="15">$15.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-2.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Purus consequat congue sit"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-2_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Purus consequat congue sit"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Purus consequat congue sit</a>
-                </h3>
-
-                <data class="card-price" value="45">$45.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-3.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Morbi vel arcu scelerisque"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-3_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Morbi vel arcu scelerisque"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Morbi vel arcu scelerisque</a>
-                </h3>
-
-                <data class="card-price" value="45">$45.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-4.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Morbi vel arcu scelerisque"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-4_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Morbi vel arcu scelerisque"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Morbi vel arcu scelerisque</a>
-                </h3>
-
-                <data class="card-price" value="49">$49.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-5.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Morbi vel arcu scelerisque"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-5_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Morbi vel arcu scelerisque"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Morbi vel arcu scelerisque</a>
-                </h3>
-
-                <data class="card-price" value="85">$85.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-6.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Nam justo libero porta ege"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-6_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Nam justo libero porta ege"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Nam justo libero porta ege</a>
-                </h3>
-
-                <data class="card-price" value="85">$85.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-7.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Nam justo libero porta ege"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-7_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Nam justo libero porta ege"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Nam justo libero porta ege</a>
-                </h3>
-
-                <data class="card-price" value="85">$85.00</data>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="product-card">
-              <div
-                class="card-banner img-holder"
-                style="--width: 360; --height: 360"
-              >
-                <img
-                  src="assets/imgs/product-8.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Etiam commodo leo sed"
-                  class="img-cover default"
-                />
-                <img
-                  src="assets/imgs/product-8_0.jpg"
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Etiam commodo leo sed"
-                  class="img-cover hover"
-                />
-
-                <button
-                  class="card-action-btn"
-                  aria-label="add to card"
-                  title="Add To Card"
-                ></button>
-              </div>
-
-              <div class="card-content">
-                <div class="wrapper">
-                  <div class="rating-wrapper gray"></div>
-
-                  <span class="span">(0)</span>
-                </div>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Etiam commodo leo sed</a>
-                </h3>
-
-                <data class="card-price" value="55">$55.00</data>
+                <data class="card-price" value="15">{{
+                  item.price | currency : "VND"
+                }}</data>
               </div>
             </div>
           </li>
@@ -538,15 +210,6 @@
         </figure>
 
         <div class="cta-content">
-          <img
-            src="assets/imgs/cta-icon.png"
-            width="120"
-            height="35"
-            loading="lazy"
-            alt="taste guarantee"
-            class="img"
-          />
-
           <h2 class="h2 section-title">
             Taste it, love it or we’ll replace it… Guaranteed!
           </h2>

@@ -1,3 +1,5 @@
+@import url("https://fonts.cdnfonts.com/css/crossed-out");
+
 *,
 *::before,
 *::after {
@@ -8,6 +10,11 @@
 
 li {
   list-style: none;
+}
+
+h1 {
+  font-family: "Crossed Out", sans-serif;
+  font-size: 60px;
 }
 
 a,
@@ -355,13 +362,9 @@ button {
   color: unset;
 }
 
-.product-card .h3 {
-  --fs-3: 1.8rem;
-  margin-block: 8px 10px;
-}
-
 .product-card .card-title {
   transition: var(--transition-1);
+  margin-top: 0.5rem;
 }
 
 .product-card .card-title:is(:hover, :focus) {
@@ -894,7 +897,12 @@ button {
    */
 
   .category-card .h3 {
-    --fs-3: 2rem;
+    --fs-3: 1.5rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    a {
+      font-size: 1.25rem;
+    }
   }
 
   /**

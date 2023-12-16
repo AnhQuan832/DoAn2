@@ -5,19 +5,25 @@
     }}"
   />
   <div class="card-content w-100 d-flex flex-column p-3">
-    <h3 class="product-name">{{ product?.name }}</h3>
+    <h5 class="product-name mb-0">{{ product?.name }}</h5>
     <!-- <p class="product-des">
       {{ product?.description }}
     </p> -->
-    <div class="product-rating">
+    <p class="product-des mt-0 mb-1" style="font-size: 0.85rem">
+      {{ product?.subCategory?.category?.name }}
+    </p>
+    <div *ngIf="!viewOnly" class="product-rating">
       <p-rating
         [(ngModel)]="product.avgRating"
         [readonly]="true"
         [cancel]="false"
       ></p-rating>
     </div>
-    <div class="product-price d-flex justify-content-between">
+    <p
+      *ngIf="!viewOnly"
+      class="mt-2 mb-0 product-price d-flex justify-content-between"
+    >
       {{ product?.price.toLocaleString() }} VND
-    </div>
+    </p>
   </div>
 </div>

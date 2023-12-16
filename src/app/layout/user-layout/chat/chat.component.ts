@@ -32,15 +32,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   userSearch: string;
   message: string;
-  recipientID: string;
+  recipientId: string;
 
-  senderID = this.storageService.getItemLocal('userInfo')?.userId;
+  senderId = this.storageService.getItemLocal('userInfo')?.userId;
   senderAvatar = this.storageService.getItemLocal('userInfo')?.userAvatar;
 
   private stompClient = null;
   private messageData = {
-    senderID: this.storageService.getItemLocal('userInfo')?.userId,
-    recipientID: '',
+    senderId: this.storageService.getItemLocal('userInfo')?.userId,
+    recipientId: '',
     message: '',
   };
 
@@ -54,10 +54,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (sessionStorage.getItem('reciepientID')) {
+      if (sessionStorage.getItem('reciepientId')) {
         console.log(this.listUsers);
         this.currentUser = this.listUsers.filter((user) => {
-          if (user.userID == sessionStorage.getItem('reciepientID')) {
+          if (user.userId == sessionStorage.getItem('reciepientId')) {
             return user;
           } else return 0;
         });
@@ -73,17 +73,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
       const timestamp = currentDate.getTime();
       await this.sendValue(this.message);
       this.currentUserChat.push({
-        chatRoomID: this.currentUser.chatRoomID,
-        senderID: this.senderID,
-        recipientID: this.recipientID,
+        chatRoomId: this.currentUser.chatRoomId,
+        senderId: this.senderId,
+        recipientId: this.recipientId,
         content: this.message,
         timestamp: timestamp,
         status: 'DELIVERED',
       });
       this.listMessage.push({
-        chatRoomID: this.currentUser.chatRoomID,
-        senderID: this.senderID,
-        recipientID: this.recipientID,
+        chatRoomId: this.currentUser.chatRoomId,
+        senderId: this.senderId,
+        recipientId: this.recipientId,
         content: this.message,
         timestamp: timestamp,
         status: 'DELIVERED',
@@ -97,20 +97,20 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   async selectUser(user) {
     this.isLoadingChatContent = true;
-    this.recipientID = user.userID;
+    this.recipientId = user.userId;
     this.currentUser = user;
     const items = document.querySelectorAll('.reciepient');
-    const element = document.getElementById(user.userID);
+    const element = document.getElementById(user.userId);
     items.forEach((item) => {
       item.classList.remove('active');
       item.removeAttribute('style');
     });
     element.classList.add('active');
 
-    this.setReceipientID(this.recipientID);
-    await this.getListMessages(user.chatRoomID);
+    this.setReceipientId(this.recipientId);
+    await this.getListMessages(user.chatRoomId);
     this.listUsers.map((selectedUser) => {
-      if (user.userID === selectedUser.userID) selectedUser.isRead = true;
+      if (user.userId === selectedUser.userId) selectedUser.isRead = true;
     });
     this.isLoadingChatContent = false;
     setTimeout(() => {
@@ -120,22 +120,26 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   public getListUsers() {
     this.listUsers = this.listChatRoom.map((chatRoom) => {
-      if (chatRoom.user1.userID !== this.senderID) {
+      if (chatRoom.firstUser.userId !== this.senderId) {
         return {
-          chatRoomID: chatRoom.chatRoomID,
-          userID: chatRoom.user1.userID,
+          chatRoomId: chatRoom.chatRoomId,
+          userId: chatRoom.firstUser.userId,
           userName:
-            chatRoom.user1.userFirstName + ' ' + chatRoom.user1.userLastName,
-          userAvatar: chatRoom.user1.userAvatar,
+            chatRoom.firstUser.userFirstName +
+            ' ' +
+            chatRoom.firstUser.userLastName,
+          userAvatar: chatRoom.firstUser.userAvatar,
           isRead: false,
         };
       } else {
         return {
-          chatRoomID: chatRoom.chatRoomID,
-          userID: chatRoom.user2.userID,
+          chatRoomId: chatRoom.chatRoomId,
+          userId: chatRoom.secondUser.userId,
           userName:
-            chatRoom.user2.userFirstName + ' ' + chatRoom.user2.userLastName,
-          userAvatar: chatRoom.user2.userAvatar,
+            chatRoom.secondUser.userFirstName +
+            ' ' +
+            chatRoom.secondUser.userLastName,
+          userAvatar: chatRoom.secondUser.userAvatar,
           isRead: false,
         };
       }
@@ -145,7 +149,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   onFocusBoxChat() {
     this.chatService
-      .putSeenMessage(this.senderID, this.recipientID)
+      .putSeenMessage(this.senderId, this.recipientId)
       .then(() => {})
       .catch((err) => {
         console.log(err);
@@ -163,9 +167,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       });
   }
 
-  async getListMessages(chatRoomID: string) {
+  async getListMessages(chatRoomId: string) {
     await this.chatService
-      .getMessageByChatRoom(chatRoomID, this.senderID, this.recipientID)
+      .getMessageByChatRoom(chatRoomId, this.senderId, this.recipientId)
       .then((messages) => {
         this.rawMessages = messages;
       })
@@ -174,8 +178,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       });
     this.currentUserChat = await this.rawMessages.map((message) => {
       return {
-        senderID: message.senderID,
-        recipientID: message.recipientID,
+        senderId: message.senderId,
+        recipientId: message.recipientId,
         content: message.content,
         timestamp: message.timestamp,
         status: message.status,
@@ -186,7 +190,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   async getUnreadMessage() {
     await this.listUsers.map(async (user) => {
       await this.chatService
-        .getUnreadMessageByRecipientID(user.userID, this.senderID)
+        .getUnreadMessageByRecipientId(user.userId, this.senderId)
         .then((messageCount) => {
           if (messageCount === 0) user.isRead = true;
         })
@@ -214,8 +218,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     chatContent.scrollTop = chatContent.scrollHeight;
   }
 
-  public setReceipientID(recipientID: string) {
-    this.messageData.recipientID = recipientID;
+  public setReceipientId(recipientId: string) {
+    this.messageData.recipientId = recipientId;
   }
 
   public connect() {
@@ -229,7 +233,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   onConnected = () => {
     this.stompClient.subscribe('/private-message', this.onMessageSend);
     this.stompClient.subscribe(
-      '/user/' + this.storageService.getDataFromCookie('userID') + '/private',
+      '/user/' + this.senderId + '/private',
       this.onPrivateMessage
     );
   };
@@ -244,7 +248,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.listMessage.push(payloadData);
     if (this.currentUserChat) this.currentUserChat.push(payloadData);
     this.listUsers.map((user) => {
-      if (user.userID === payloadData.senderID) user.isRead = false;
+      if (user.userId === payloadData.senderId) user.isRead = false;
     });
     setTimeout(() => {
       this.autoScrollToNewMessage();
@@ -258,8 +262,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   sendValue(message) {
     if (this.stompClient) {
       var chatMessage = {
-        senderID: this.messageData.senderID || 'USER_1699792351661_gmNWp',
-        recipientID: this.messageData.recipientID || 'USER_1697033158735',
+        senderId: this.messageData.senderId || 'USER_1699792351661_gmNWp',
+        recipientId: this.messageData.recipientId || 'USER_1697033158735',
         content: message,
       };
       this.stompClient.send(
@@ -272,17 +276,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 }
 export interface UserMessage {
-  chatRoomID: string;
-  userID: string;
+  chatRoomId: string;
+  userId: string;
   userName: string;
   userAvatar: string;
   isRead: boolean;
 }
 
 export interface Message {
-  chatRoomID: string;
-  senderID: string;
-  recipientID: string;
+  chatRoomId: string;
+  senderId: string;
+  recipientId: string;
   content: string;
   timestamp: any;
   status: string;

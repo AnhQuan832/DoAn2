@@ -87,4 +87,55 @@ export class InvoiceService {
         })
       );
   }
+
+  processBuyNow(data) {
+    return this.http
+      .post(API.PAYMENT.END_POINT.SINGLE_CHECKOUT, data, {
+        headers: this.storageService.getHttpHeader(),
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.output;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
+
+  processPaymentUnauth(data) {
+    return this.http.post(API.PAYMENT.END_POINT.UNTAUTH_CHECK_OUT, data).pipe(
+      map((data: any) => {
+        if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+          return data.data.output;
+        } else {
+          throw new Error(data.meta);
+        }
+      }),
+      catchError((err) => {
+        throw new Error(err);
+      })
+    );
+  }
+
+  processBuyNowUnauth(data) {
+    return this.http
+      .post(API.PAYMENT.END_POINT.UNTAUTH_SINGLE_CHECKOUT, data)
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.output;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
 }

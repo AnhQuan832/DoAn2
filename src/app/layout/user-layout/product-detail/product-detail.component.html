@@ -38,7 +38,7 @@
     <div class="product-info col-6">
       <div class="basic-info ps-4">
         <div class="product-name d-flex">
-          <h1 class="py-2">{{ product.name }}</h1>
+          <h1 class="py-2 mb-0">{{ product.name }}</h1>
         </div>
         <div class="product-rating">
           <p-rating
@@ -49,12 +49,12 @@
         </div>
 
         <h5 class="mt-2">{{ attPrice | currency : "VND" }}</h5>
-        <div class="size attribute mt-4">
-          <h5 class="mt-4"><b [style.width.px]="80">Brand:</b></h5>
-          <h5 class="mt-4">{{ product.brand.name }}</h5>
+        <div class="size attribute">
+          <h5 class="mb-0 mt-1"><b [style.width.px]="80">Brand:</b></h5>
+          <h5 class="mb-0 mt-1">{{ product.brand.name }}</h5>
         </div>
 
-        <div class="size attribute mt-4" *ngIf="listSize.length > 0">
+        <div class="size attribute" *ngIf="listSize.length > 0">
           <h5 class="mt-2"><b>Size</b></h5>
           <div
             class="size"
@@ -79,7 +79,7 @@
             {{ color.name }}
           </div>
         </div>
-        <div class="size attribute mt-4" *ngIf="listSize.length > 0">
+        <div class="size attribute" *ngIf="listSize.length > 0">
           <h5 class="mt-2"><b>Amount</b></h5>
           <p-inputNumber
             [(ngModel)]="numberOfProduct"
@@ -101,11 +101,15 @@
       </div>
 
       <div class="button-group pt-4 ps-4 d-flex gap-2">
-        <button [disabled]="isDisableBuy" class="btn btn-primary">
+        <button
+          [disabled]="!numberOfProduct"
+          class="btn btn-primary"
+          (click)="buyNow()"
+        >
           Buy now
         </button>
         <button
-          [disabled]="isDisableBuy"
+          [disabled]="!numberOfProduct"
           class="btn btn-secondary"
           (click)="addToCart()"
         >
@@ -114,19 +118,42 @@
       </div>
     </div>
   </div>
-  <div class="detail-status pt-4">
-    <div class="inline-flex align-items-center">
+  <div *ngIf="product.description" class="detail-status pt-4">
+    <div class="card p-4 my-4">
       <h5><b>Detail</b></h5>
+      <span>{{ product.description }}</span>
     </div>
-    <div>
-      <textarea
-        class="w-100 p-4"
-        name=""
-        id="textarea"
-        pInputTextarea
-        disabled="true"
-        [(ngModel)]="product.description"
-      ></textarea>
+  </div>
+
+  <div class="card detail-status p-4 mt-">
+    <div class="inline-flex align-items-center">
+      <h5><b>Review</b></h5>
+      <div class="list-review" *ngFor="let rv of product.ratingList">
+        <div class="info d-flex align-items-start">
+          <img
+            width="50px"
+            class="me-2"
+            src="{{ product.images[0] || rv.userAvatar }}"
+            onerror="this.onerror=null;this.src='/assets/imgs/no_user.png';"
+            alt=""
+          />
+          <span class="d-flex flex-column">
+            <p style="font-size: 0.75rem" class="m-0">
+              {{ rv.userFirstName }} {{ rv.userLastName }} |
+              {{ rv.date | date : "dd/MM/yyyy" }}
+            </p>
+            <span
+              ><p-rating
+                [(ngModel)]="rv.score"
+                [cancel]="false"
+                [readonly]="true"
+              ></p-rating
+            ></span>
+            <p class="mt-2 ps-2 mb-0">{{ rv.message }}</p>
+          </span>
+        </div>
+        <hr />
+      </div>
     </div>
   </div>
 </div>

@@ -7,6 +7,10 @@ export const API = {
       LOGIN: API_URL + 'auth/authenticate',
       REGISTER: API_URL + 'auth/userRegister',
       GG_LOGIN: API_URL + 'auth/authenticateGoogleUser',
+      CONFIRM_EMAIL: API_URL + 'otp/sendOTPConfirmEmail',
+      FORGOT_PASS: API_URL + 'otp/sendOTPForgotPassword',
+      VALIDATE_EMAIL: API_URL + 'otp/validateOTPConfirmEmail',
+      VALIDATE_PASS: API_URL + 'otp/validateOTPForgotPassword',
     },
     STATUS: {
       SYSTEM_ERROR: '0_1_f',
@@ -25,6 +29,8 @@ export const API = {
       SUB_CATEGORY: API_URL + 'product/sub-category',
       CATEGORY: API_URL + 'product/category',
       BRAND: API_URL + 'product/brand',
+      REVIEW: API_URL + 'rating',
+      MOST_VIEW: API_URL + 'product/most-views',
     },
     STATUS: {
       GET_PRODUCT_SUCCESS: '0_2_s',
@@ -76,10 +82,11 @@ export const API = {
   },
   CHAT: {
     END_POINT: {
-      CHAT_ROOM: API_URL + 'getAllChatRoomByUserID',
-      MESSAGES_BY_CHAT_ROOM: API_URL + 'getAllMessageBySenderIDAndRecipientID',
-      UNREAD_MESSAGES_COUNT: API_URL + 'messages',
-      SEEN_MESSAGE: API_URL + 'seenMessage',
+      CHAT_ROOM: API_URL + 'chat/getAllChatRoomByUserID',
+      MESSAGES_BY_CHAT_ROOM:
+        API_URL + 'chat/getAllMessageBySenderIDAndRecipientID',
+      UNREAD_MESSAGES_COUNT: API_URL + 'chat/messages',
+      SEEN_MESSAGE: API_URL + 'chat/seenMessage',
     },
     STATUS: {
       SUCCESS: '0_2_s',
@@ -96,5 +103,8 @@ export const API = {
       SUCCESS: '0_2_s',
       FAIL: '0_1_f',
     },
+  },
+  SEARCH: {
+    ENDPOINT: API_URL + 'search/global',
   },
 };
