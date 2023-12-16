@@ -69,6 +69,7 @@ export class CheckOutComponent implements OnInit {
       paymentType: this.fb.control(''),
       returnUrl: this.fb.control(''),
       voucher: this.fb.control(''),
+      shippingFee: this.fb.control(''),
       address: this.fb.group({
         userId: this.fb.control(''),
         addressId: this.fb.control(''),
@@ -197,17 +198,35 @@ export class CheckOutComponent implements OnInit {
       returnUrl: 'http://localhost:4200/user/cart',
     });
 
-    const data = {
-      paymentInfoDTO: this.checkOutForm.value,
-      cartId: this.cartItem[0].cartId,
-    };
-
-    this.invoiceService.processPayment(data).subscribe({
-      next: (res) => {
-        console.log(res);
-        window.open(res);
-      },
+    this.checkOutForm.patchValue({
+      shippingFee: this.selectedShipping?.price || this.shipService[0].price,
     });
+
+    let data;
+    if (this.cartItem[0]?.cartId) {
+      data = {
+        paymentInfoDTO: this.checkOutForm.value,
+        cartId: this.cartItem[0].cartId,
+      };
+      this.invoiceService.processPayment(data).subscribe({
+        next: (res) => {
+          window.open(res);
+          // window.location.href = res;
+        },
+      });
+    } else {
+      data = {
+        paymentInfoDTO: this.checkOutForm.value,
+        varietyId: this.cartItem[0].varietyId,
+        quantity: this.cartItem[0].quantity,
+      };
+      this.invoiceService.processBuyNow(data).subscribe({
+        next: (res) => {
+          window.open(res);
+          // window.location.href = res;
+        },
+      });
+    }
   }
 
   onAddress() {

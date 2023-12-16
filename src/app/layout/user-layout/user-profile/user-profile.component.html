@@ -28,7 +28,7 @@
           <button
             (click)="avatarInput.click()"
             style="width: fit-content; padding: 0.25rem 1.5rem"
-            class="btn btn-primary"
+            class="btn btn-secondary"
           >
             Select avatar
           </button>
@@ -271,6 +271,7 @@
                     <th pSortableColumn="totalItemPrice">
                       Total <p-sortIcon field="totalItemPrice"></p-sortIcon>
                     </th>
+                    <th></th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
@@ -299,6 +300,14 @@
                     <td style="width: 14%; min-width: 10rem">
                       <span class="p-column-title">Total</span>
                       {{ product.total_price | currency : "VND" }}
+                    </td>
+                    <td>
+                      <p-button
+                        icon="pi pi-pencil"
+                        styleClass="p-button-secondary"
+                        label="Review"
+                        (onClick)="addRating(product)"
+                      ></p-button>
                     </td>
                   </tr>
                 </ng-template>

@@ -3,15 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { InvoiceService } from 'src/app/core/service/invoice.service';
 import { UserService } from 'src/app/core/service/user.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.less'],
+  providers: [DialogService],
 })
 export class UserProfileComponent implements OnInit {
   user: any;
   isLoading: boolean = true;
+  ref: DynamicDialogRef;
   protected genderOptions = [
     {
       id: 'FEMALE',
@@ -37,7 +41,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userSerivce: UserService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private dialogSerivce: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +86,13 @@ export class UserProfileComponent implements OnInit {
       next: (res) => {
         this.cart = res;
       },
+    });
+  }
+
+  addRating(row) {
+    this.ref = this.dialogSerivce.open(RatingComponent, {
+      header: 'Write a Review',
+      data: row,
     });
   }
 }

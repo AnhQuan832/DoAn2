@@ -102,8 +102,7 @@
       <div class="d-flex align-items-center" *ngFor="let item of shipService">
         <div *ngIf="item.price > 0">
           <p-radioButton
-            name="pizza"
-            value="Cheese"
+            [value]="item"
             [ngModelOptions]="{ standalone: true }"
             [(ngModel)]="selectedShipping"
             inputId="{{ item.service_type_id }}"
@@ -127,10 +126,11 @@
         <div
           class="item-name d-flex justify-content-start align-items-center gap-4"
         >
-          <img width="60px" [src]="item?.image" alt="" />
+          <img width="60px" [src]="item?.image || item?.images[0]" alt="" />
           <h6>{{ item.name }}</h6>
+          <h6>x{{ item.quantity }}</h6>
         </div>
-        <span>{{ item.totalItemPrice | currency : "VND" }}</span>
+        <p>{{ item?.totalItemPrice || item?.price | currency : "VND" }}</p>
       </div>
     </div>
     <p-divider type="solid" class="my-4"></p-divider>
@@ -180,7 +180,12 @@
     <div class="shipping">
       <span class="d-flex justify-content-between">
         <h6>Order Payment</h6>
-        <h6>{{ totalPrice | currency : "VND" }}</h6>
+        <h6>
+          {{
+            totalPrice || cartItem[0]?.price * cartItem[0]?.quantity
+              | currency : "VND"
+          }}
+        </h6>
       </span>
       <span class="d-flex justify-content-between">
         <h6>Shipping Fee</h6>
@@ -202,8 +207,12 @@
       <h6>Total</h6>
       <h6>
         {{
-          selectedShipping?.price ||
-            shipService[0].price + totalPrice - discount | currency : "VND"
+          (shipService[0].price || selectedShipping?.price) +
+            totalPrice -
+            discount ||
+            (shipService[0].price || selectedShipping?.price) +
+              cartItem[0]?.price * cartItem[0]?.quantity -
+              discount | currency : "VND"
         }}
       </h6>
     </span>

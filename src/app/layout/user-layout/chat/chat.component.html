@@ -28,10 +28,15 @@
         class="reciepient rounded-3 m-1 p-2 d-flex align-items-center"
         *ngFor="let user of listUsers"
         (click)="selectUser(user)"
-        [id]="user.userID"
+        [id]="user.userId"
       >
         <div class="avatar">
-          <img src="{{ user.userAvatar }}" alt="" class="rounded-circle ms-2" />
+          <img
+            src="{{ user?.userAvatar }}"
+            onerror="this.onerror=null;this.src='/assets/imgs/no_user.png';"
+            alt=""
+            class="rounded-circle ms-2"
+          />
           <div class="unread-message rounded-circle" *ngIf="!user.isRead"></div>
         </div>
         <div class="content d-flex align-items-center justify-content-center">
@@ -57,9 +62,9 @@
       class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
     >
       <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="sr-only"></span>
       </div>
-      <p style="opacity: 0.7">Loading</p>
+      <p style="opacity: 0.7">Loading...</p>
     </div>
     <div class="chat-header p-2 m-1 rounded-3">
       <img
@@ -73,11 +78,11 @@
       <div
         *ngFor="let message of currentUserChat"
         class="d-flex m-2 mx-4 message"
-        [ngClass]="{ 'sender-message': senderID === message.senderID }"
+        [ngClass]="{ 'sender-message': senderId === message.senderId }"
       >
         <p-avatar
           image="{{
-            senderID === message.senderID
+            senderId === message.senderId
               ? senderAvatar
               : currentUser.userAvatar
           }}"
@@ -101,7 +106,7 @@
           [(ngModel)]="message"
           (keydown.enter)="sendMessage()"
           (focus)="onFocusBoxChat()"
-          placeholder="Nhập tin nhắn ..."
+          placeholder="Enter message ..."
         />
         <button (click)="sendMessage()" [disabled]="!message">
           Gửi

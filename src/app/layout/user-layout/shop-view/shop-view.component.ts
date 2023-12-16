@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/core/service/product.service';
 import { DataView } from 'primeng/dataview';
-
+import _ from 'lodash';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-shop-view',
   templateUrl: './shop-view.component.html',
@@ -28,9 +29,12 @@ export class ShopViewComponent implements OnInit {
   products;
   searchValue;
   timeAutoPlay = 3000;
-  protected selectedShelter = 'All';
-  protected selectedSpecie = 'All';
-
+  sortedProd;
+  defaultProd;
+  protected selectedBrand = 'All';
+  protected selectedCate = 'All';
+  listCate;
+  listBrand;
   constructor(private productService: ProductService) {}
   ngOnInit(): void {
     this.initialize();
@@ -40,9 +44,22 @@ export class ShopViewComponent implements OnInit {
     this.productService.getAllProduct().subscribe({
       next: (res) => {
         this.products = res;
-        console.log(this.products);
+        this.sortedProd = _.cloneDeep(this.products);
+        this.defaultProd = _.cloneDeep(this.products);
       },
       error: (err) => console.log(err),
+    });
+
+    forkJoin([
+      this.productService.getCategory(),
+      this.productService.getBrand(),
+    ]).subscribe({
+      next: (res) => {
+        this.listCate = res[0];
+        this.listBrand = res[1];
+        this.listBrand.unshift({ name: 'All', brandId: 'All' });
+        this.listCate.unshift({ name: 'All', categoryId: 'All' });
+      },
     });
   }
 
@@ -59,9 +76,81 @@ export class ShopViewComponent implements OnInit {
     }
   }
 
-  onUserSearched() {}
+  onUserSearched() {
+    if (this.searchValue === '') {
+      this.products = [...this.sortedProd];
+      return;
+    }
+    const formatedValue = this.searchValue
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    console.log(formatedValue);
+    this.products = this.products.filter((prod) => {
+      return Object.values(prod).some((value) =>
+        String(value)
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .includes(formatedValue)
+      );
+    });
+  }
 
   onFilter(dv: DataView, event: Event) {
     dv.filter((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  onCheckboxBrandChange(event) {
+    this.products = [...this.defaultProd];
+    console.log(this.products);
+    console.log(event);
+
+    if (event.value === 'All') {
+      if (this.selectedCate === 'All') return;
+      else {
+        this.products = this.products.filter((prod) => {
+          return prod.subCategory.category.categoryId === this.selectedCate;
+        });
+      }
+    } else {
+      if (this.selectedCate === 'All')
+        this.products = this.products.filter((prod) => {
+          return prod.brand.brandId === event.value;
+        });
+      else
+        this.products = this.products.filter((prod) => {
+          return (
+            prod.brand.brandId === event.value &&
+            prod.subCategory.category.categoryId === this.selectedCate
+          );
+        });
+    }
+    this.sortedProd = [...this.products];
+  }
+
+  onCheckboxCateChange(event) {
+    this.products = [...this.defaultProd];
+    if (event.value === 'All') {
+      if (this.selectedBrand === 'All') return;
+      else {
+        this.products = this.products.filter((prod) => {
+          return prod.brand.brandId === this.selectedBrand;
+        });
+      }
+    } else {
+      if (this.selectedBrand === 'All')
+        this.products = this.products.filter((prod) => {
+          return prod.subCategory.category.categoryId === event.value;
+        });
+      else
+        this.products = this.products.filter((prod) => {
+          return (
+            prod.subCategory.category.categoryId === event.value &&
+            prod.brand.brandId === this.selectedBrand
+          );
+        });
+    }
+    this.sortedProd = [...this.products];
   }
 }

@@ -4,6 +4,7 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 @import "colors.less";
+@import url("https://fonts.cdnfonts.com/css/afacad");
 
 body {
   height: 100vh;
@@ -12,6 +13,22 @@ body {
 :root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  b,
+  label,
+  input,
+  div,
+  td,
+  th {
+    font-family: "Afacad", sans-serif;
+  }
   ol,
   ul {
     padding-left: 0rem;
@@ -65,7 +82,7 @@ body {
     height: 6vh;
     width: 20vw;
     background-color: @offwhite-color;
-    border: solid 3px @primary-color;
+    border: solid 1px @primary-color;
     color: @primary-color;
   }
 
@@ -207,7 +224,7 @@ body {
   .p-splitbutton.p-button-secondary > .p-button {
     border-radius: 10px;
     background-color: @offwhite-color;
-    border: solid 3px @primary-color;
+    border: solid 1px @primary-color;
     color: @primary-color;
   }
   p-table {

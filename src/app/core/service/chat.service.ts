@@ -21,26 +21,22 @@ export class ChatService {
       .toPromise();
   }
 
-  async getMessageByChatRoom(
-    chatRoom: string,
-    senderID: string,
-    recipientID: string
-  ) {
+  async getMessageByChatRoom(chatRoom, senderID, recipientID) {
     return await this.http
       .get(
         API.CHAT.END_POINT.MESSAGES_BY_CHAT_ROOM +
-          +`/${chatRoom}/` +
+          `/${chatRoom}/` +
           `${senderID}/` +
           `${recipientID}`
       )
       .toPromise();
   }
 
-  async getUnreadMessageByRecipientID(recipientID: string, senderID: string) {
+  async getUnreadMessageByRecipientId(recipientID: string, senderID: string) {
     return await this.http
       .get(
         API.CHAT.END_POINT.UNREAD_MESSAGES_COUNT +
-          +`/${senderID}/` +
+          `/${senderID}/` +
           `${recipientID}/count`
       )
       .toPromise();

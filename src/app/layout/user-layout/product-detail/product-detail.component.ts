@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { CartService } from 'src/app/core/service/cart.service';
+import { InvoiceService } from 'src/app/core/service/invoice.service';
 import { ProductService } from 'src/app/core/service/product.service';
 import { StorageService } from 'src/app/core/service/storage.service';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -32,7 +33,8 @@ export class ProductDetailComponent implements OnInit {
     private router: Router,
     private productSerivce: ProductService,
     private cartService: CartService,
-    private messageSerice: MessageService
+    private messageSerice: MessageService,
+    private invoiceService: InvoiceService
   ) {}
   ngOnInit(): void {
     this.initialize();
@@ -44,7 +46,7 @@ export class ProductDetailComponent implements OnInit {
   initialize() {
     this.isLogin = this.storageService.getDataFromCookie('jwtToken');
     this.product = this.storageService.getItemLocal('currentProduct');
-    this.listVarieties = this.product.varieties;
+    this.listVarieties = this.product?.varieties;
     this.productSerivce.getProductDetail(this.product.productId).subscribe({
       next: (res) => {
         this.product = res;
@@ -58,8 +60,11 @@ export class ProductDetailComponent implements OnInit {
         });
       },
     });
-    if (this.isLogin)
-      this.cartService.getCart().subscribe({
+    if (!this.isLogin)
+      // this.cartService.getCart().subscribe({
+      //   next: (res) => this.storageService.setItemLocal('cart', res),
+      // });
+      this.cartService.getUnauthCart().subscribe({
         next: (res) => this.storageService.setItemLocal('cart', res),
       });
   }
@@ -165,5 +170,16 @@ export class ProductDetailComponent implements OnInit {
       localCart.push(data);
       this.storageService.setItemLocal('localCart', localCart);
     }
+  }
+
+  buyNow() {
+    const data = {
+      ...this.selectedVariety,
+      quantity: this.numberOfProduct,
+      image: this.product.images[0],
+      name: this.product.name,
+    };
+    this.storageService.setItemLocal('cart', [data]);
+    this.router.navigate(['/user/check-out']);
   }
 }
