@@ -5,12 +5,14 @@ import { InvoiceService } from 'src/app/core/service/invoice.service';
 import { UserService } from 'src/app/core/service/user.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
+import { ChatComponent } from '../chat/chat.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.less'],
-  providers: [DialogService],
+  providers: [DialogService, ChatComponent],
 })
 export class UserProfileComponent implements OnInit {
   user: any;
@@ -42,7 +44,9 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userSerivce: UserService,
     private invoiceService: InvoiceService,
-    private dialogSerivce: DialogService
+    private dialogSerivce: DialogService,
+    private chat: ChatComponent,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -94,5 +98,15 @@ export class UserProfileComponent implements OnInit {
       header: 'Write a Review',
       data: row,
     });
+  }
+
+  contactAdmin() {
+    sessionStorage.setItem('reciepientID', 'USER_1697033158735');
+    this.chat.connect();
+    setTimeout(() => {
+      this.chat.setReceipientId('USER_1697033158735');
+      this.chat.sendValue('Start');
+      this.router.navigate(['/user/message']);
+    }, 1000);
   }
 }

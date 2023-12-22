@@ -35,20 +35,18 @@ export class CartService {
   }
 
   getUnauthCart() {
-    return this.http
-      .get(API.CART.END_POINT.GET_UNAUTH_CART, { params: { cartId: null } })
-      .pipe(
-        map((data: any) => {
-          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
-            return data.data.cartItems;
-          } else {
-            throw new Error(data.meta);
-          }
-        }),
-        catchError((err) => {
-          throw new Error(err);
-        })
-      );
+    return this.http.get(API.CART.END_POINT.GET_UNAUTH_CART).pipe(
+      map((data: any) => {
+        if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+          return data.data.cartItems;
+        } else {
+          throw new Error(data.meta);
+        }
+      }),
+      catchError((err) => {
+        throw new Error(err);
+      })
+    );
   }
 
   addToCart(quantity, varietyId, totalItemPrice?) {

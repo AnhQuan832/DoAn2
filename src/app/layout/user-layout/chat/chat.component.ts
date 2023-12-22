@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import SockJS from 'sockjs-client';
 import { ChatService } from 'src/app/core/service/chat.service';
 import { StorageService } from 'src/app/core/service/storage.service';
@@ -17,7 +18,8 @@ import { over } from 'stompjs';
 export class ChatComponent implements OnInit, AfterViewInit {
   constructor(
     private chatService: ChatService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {}
 
   isLoadingChatRoom = true;
@@ -29,7 +31,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public listMessage = new Array<Message>();
   currentUser: any;
   currentUserChat: any;
-
+  isLogin;
   userSearch: string;
   message: string;
   recipientId: string;
@@ -45,6 +47,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   };
 
   async ngOnInit() {
+    this.isLogin = this.storageService.getDataFromCookie('jwtToken');
+    if (!this.isLogin) this.router.navigate(['/auth/login']);
     await this.connect();
     await this.getChatRoom();
     await this.getListUsers();
@@ -67,7 +71,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   async sendMessage() {
-    this.message = 'Hello';
     if (this.message) {
       const currentDate = new Date();
       const timestamp = currentDate.getTime();
