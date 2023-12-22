@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { CartService } from 'src/app/core/service/cart.service';
 import { ProductService } from 'src/app/core/service/product.service';
 import { StorageService } from 'src/app/core/service/storage.service';
@@ -13,7 +14,8 @@ export class LandingComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private storageService: StorageService,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     const localCart = this.storageService.getItemLocal('localCart');
@@ -24,8 +26,12 @@ export class LandingComponent implements OnInit {
       localStorage.removeItem('localCart');
     }
 
-    this.productService.getProdMost(5).subscribe({
+    this.productService.getProdMost(4).subscribe({
       next: (res) => (this.mostProd = res),
     });
+  }
+
+  onProdClick(id) {
+    this.router.navigate([`/user/product-detail/${id}`]);
   }
 }

@@ -25,13 +25,13 @@
           </div>
         </div>
         <div class="change-logo d-flex justify-content-center my-2">
-          <button
+          <!-- <button
             (click)="avatarInput.click()"
             style="width: fit-content; padding: 0.25rem 1.5rem"
             class="btn btn-secondary"
           >
             Select avatar
-          </button>
+          </button> -->
           <input
             type="file"
             accept="image/png, image/jpeg"
@@ -127,12 +127,12 @@
               </div>
             </div>
             <div class="d-flex justify-content-center mt-2">
-              <button
+              <!-- <button
                 class="btn btn-primary m-auto"
                 (click)="updateUserProfile()"
               >
                 Update
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
@@ -198,6 +198,7 @@
                     <th pSortableColumn="status">
                       Status <p-sortIcon field="status"></p-sortIcon>
                     </th>
+                    <th></th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-invoice>
@@ -219,6 +220,14 @@
                       {{
                         invoice.status === "PENDING" ? "Pending" : "Completed"
                       }}
+                    </td>
+                    <td>
+                      <p-button
+                        *ngIf="invoice.status === 'PENDING'"
+                        styleClass="p-button-secondary"
+                        label="Contact"
+                        (onClick)="$event.stopPropagation(); contactAdmin()"
+                      ></p-button>
                     </td>
                   </tr>
                 </ng-template>

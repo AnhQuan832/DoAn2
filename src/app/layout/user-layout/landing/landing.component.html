@@ -141,7 +141,11 @@
         <h2 class="h2 section-title">Best Seller</h2>
 
         <ul class="grid-list">
-          <li *ngFor="let item of mostProd">
+          <li
+            *ngFor="let item of mostProd"
+            style="cursor: pointer"
+            (click)="onProdClick(item.productId)"
+          >
             <div class="product-card">
               <div
                 class="card-banner img-holder"
@@ -149,17 +153,11 @@
               >
                 <img
                   width="360"
+                  [src]="item.images[0]"
                   height="360"
                   loading="lazy"
                   alt="Commodo leo sed porta"
                   class="img-cover default"
-                />
-                <img
-                  width="360"
-                  height="360"
-                  loading="lazy"
-                  alt="Commodo leo sed porta"
-                  class="img-cover hover"
                 />
               </div>
 

@@ -28,6 +28,7 @@ export class ProductDetailComponent implements OnInit {
   isActiveSize = false;
   isLogin: boolean = false;
   isDisableBuy: boolean = false;
+
   constructor(
     private storageService: StorageService,
     private router: Router,
@@ -45,6 +46,12 @@ export class ProductDetailComponent implements OnInit {
 
   initialize() {
     this.isLogin = this.storageService.getDataFromCookie('jwtToken');
+    if (!this.isLogin)
+      this.cartService.getUnauthCart().subscribe({
+        next: (res) => {
+          this.storageService.setItemLocal('cart', res);
+        },
+      });
     this.product = this.storageService.getItemLocal('currentProduct');
     this.listVarieties = this.product?.varieties;
     this.productSerivce.getProductDetail(this.product.productId).subscribe({
@@ -161,6 +168,13 @@ export class ProductDetailComponent implements OnInit {
               severity: 'success',
               detail: 'Added to cart',
             }),
+          error: () => {
+            this.messageSerice.add({
+              key: 'toast',
+              severity: 'error',
+              detail: 'Can not add to cart',
+            });
+          },
         });
     } else {
       let localCart = this.storageService.getItemLocal('localCart');

@@ -19,7 +19,8 @@ import { StorageService } from 'src/app/core/service/storage.service';
 export class RegisterComponent {
   msgError: string;
   msgSuccess: string;
-  verifyEmail: boolean = true;
+  msgErrorOTP;
+  verifyEmail: boolean = false;
   otp;
   constructor(
     private socialService: SocialAuthService,
@@ -69,10 +70,12 @@ export class RegisterComponent {
             this.msgError = res;
             return;
           }
-          this.msgSuccess = 'Account created';
+          this.verifyEmail = true;
           this.authService
             .sendOtpRes(this.registerForm.value.userEmail)
-            .subscribe({});
+            .subscribe({
+              next: (res) => {},
+            });
         },
         error: (err) => console.log(err),
       });
@@ -103,8 +106,10 @@ export class RegisterComponent {
       emailAddress: this.registerForm.value.userEmail,
     });
     this.authService.validateRes(this.verifyForm.value).subscribe({
-      next: (res) => {
-        this.router.navigate(['/auth/login']);
+      next: (res: any) => {
+        if (res.meta.statusCode === '1_9_f')
+          this.msgErrorOTP = res.meta.message;
+        else this.msgSuccess = 'Account created';
       },
     });
   }

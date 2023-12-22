@@ -133,8 +133,12 @@
         <p>{{ item?.totalItemPrice || item?.price | currency : "VND" }}</p>
       </div>
     </div>
-    <p-divider type="solid" class="my-4"></p-divider>
-    <div class="voucher">
+    <p-divider
+      *ngIf="voucherOption.length"
+      type="solid"
+      class="my-4"
+    ></p-divider>
+    <div *ngIf="voucherOption.length" class="voucher">
       <span class="my-4">
         <h6>Voucher</h6>
         <!-- <input class="inputtext w-50 ps-2 mt-0 form-control" name="emailInput" type="email" pInputText /> -->

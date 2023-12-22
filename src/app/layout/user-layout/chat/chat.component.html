@@ -69,6 +69,7 @@
     <div class="chat-header p-2 m-1 rounded-3">
       <img
         src="{{ currentUser.userAvatar }}"
+        onerror="this.onerror=null;this.src='/assets/imgs/no_user.png';"
         alt=""
         class="rounded-circle mx-2"
       />

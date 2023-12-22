@@ -60,7 +60,10 @@ export class CheckOutComponent implements OnInit {
     this.bindProvinces();
     this.cartItem = this.storageSerive.getItemLocal('cart');
     this.totalPrice = this.cartItem.reduce((acc, currentItem) => {
-      return acc + currentItem.totalItemPrice;
+      return (
+        acc +
+        (currentItem.totalItemPrice || currentItem.quantity * currentItem.price)
+      );
     }, 0);
     this.getListAddress();
     this.checkOutForm = this.fb.group({
@@ -210,8 +213,8 @@ export class CheckOutComponent implements OnInit {
       };
       this.invoiceService.processPayment(data).subscribe({
         next: (res) => {
-          window.open(res);
-          // window.location.href = res;
+          // window.open(res);
+          window.location.href = res;
         },
       });
     } else {
@@ -222,8 +225,8 @@ export class CheckOutComponent implements OnInit {
       };
       this.invoiceService.processBuyNow(data).subscribe({
         next: (res) => {
-          window.open(res);
-          // window.location.href = res;
+          // window.open(res);
+          window.location.href = res;
         },
       });
     }
