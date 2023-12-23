@@ -7,6 +7,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
 import { ChatComponent } from '../chat/chat.component';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-profile',
@@ -46,11 +47,13 @@ export class UserProfileComponent implements OnInit {
     private invoiceService: InvoiceService,
     private dialogSerivce: DialogService,
     private chat: ChatComponent,
-    private router: Router
+    private router: Router,
+    private msgService: MessageService
   ) {}
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
+      userId: [null],
       userEmail: [null, Validators.required],
       userFirstName: [null, Validators.required],
       userLastName: [null, Validators.required],
@@ -61,6 +64,8 @@ export class UserProfileComponent implements OnInit {
     });
 
     this.getData();
+    this.formGroup.get('userEmail').disable();
+    this.formGroup.get('memberPoint').disable();
   }
 
   selectedAvatar(event) {
@@ -108,5 +113,31 @@ export class UserProfileComponent implements OnInit {
       this.chat.sendValue('Start');
       this.router.navigate(['/user/message']);
     }, 1000);
+  }
+
+  getSeverity(status: string) {
+    switch (status) {
+      case 'COMPLETED':
+        return 'success';
+      case 'PENDING':
+        return 'info';
+      case 'RETURN':
+        return 'warning';
+      default:
+        return 'danger';
+    }
+  }
+
+  updateData() {
+    this.userSerivce.update(this.formGroup.getRawValue()).subscribe({
+      next: (res) => {
+        this.msgService.add({
+          key: 'toast',
+          severity: 'success',
+          detail: 'Updated',
+        });
+      },
+    });
+    this.getData();
   }
 }

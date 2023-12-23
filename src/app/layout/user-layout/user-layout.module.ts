@@ -72,6 +72,7 @@ import { TabViewModule } from 'primeng/tabview';
     TabViewModule,
     ButtonModule,
     RatingModule,
+    TagModule,
   ],
   providers: [MessageService, ConfirmationService],
 })

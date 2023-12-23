@@ -31,4 +31,23 @@ export class UserService {
         })
       );
   }
+
+  update(data) {
+    return this.http
+      .put(API.USER.END_POINT.UPDATE, data, {
+        headers: this.storageSerivce.getHttpHeader(),
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.PRODUCT.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.userInfo;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
 }

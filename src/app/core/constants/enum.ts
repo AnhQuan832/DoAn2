@@ -52,6 +52,7 @@ export const API = {
     END_POINT: {
       ADDRESS: API_URL + 'user/address',
       INFO: API_URL + 'user/current-user',
+      UPDATE: API_URL + 'user',
     },
   },
   PAYMENT: {

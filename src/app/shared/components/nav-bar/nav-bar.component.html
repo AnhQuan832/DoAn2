@@ -90,9 +90,22 @@
             <i class="bi bi-cart2" (click)="routeToCart()"></i>
           </button>
         </li>
-        <li class="nav-item">
-          <button class="nav_profile-cart">
+        <li class="nav-item d-flex">
+          <button *ngIf="isLoggin" class="nav_profile-cart">
             <i class="bi bi-person" (click)="menu.toggle($event)"></i>
+          </button>
+          <button
+            *ngIf="!isLoggin"
+            style="
+              border: solid 1px #ff9b00;
+              color: #ff9b00;
+              border-radius: 5px;
+              width: fit-content;
+              padding: 0px 12px;
+            "
+            (click)="toLoginPage()"
+          >
+            Sign in
           </button>
         </li>
       </ul>

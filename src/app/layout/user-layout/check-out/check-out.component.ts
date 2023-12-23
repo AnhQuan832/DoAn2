@@ -43,6 +43,7 @@ export class CheckOutComponent implements OnInit {
   selectedVoucher;
   discount = 0;
   checkOutForm: FormGroup;
+  isLogin;
   constructor(
     private apiAddress: AddressService,
     private cartService: CartService,
@@ -52,11 +53,15 @@ export class CheckOutComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    this.invoiceService.getVoucher().subscribe({
-      next: (res) => {
-        this.voucherOption = res;
-      },
-    });
+    this.isLogin = this.storageSerive.getItemLocal('userInfo');
+    if (this.isLogin) {
+      this.invoiceService.getVoucher().subscribe({
+        next: (res) => {
+          this.voucherOption = res;
+        },
+      });
+      this.getListAddress();
+    }
     this.bindProvinces();
     this.cartItem = this.storageSerive.getItemLocal('cart');
     this.totalPrice = this.cartItem.reduce((acc, currentItem) => {
@@ -65,7 +70,6 @@ export class CheckOutComponent implements OnInit {
         (currentItem.totalItemPrice || currentItem.quantity * currentItem.price)
       );
     }, 0);
-    this.getListAddress();
     this.checkOutForm = this.fb.group({
       recipientName: this.fb.control('', [Validators.required]),
       phoneNumber: this.fb.control('', [Validators.required]),
@@ -194,7 +198,18 @@ export class CheckOutComponent implements OnInit {
     } else this.discount = this.selectedVoucher.value;
   }
   onCheckOut() {
-    this.checkOutForm.patchValue({ address: this.selectedAdd });
+    if (this.isLogin)
+      this.checkOutForm.patchValue({ address: this.selectedAdd });
+    else {
+      const address = {
+        streetName: this.checkOutForm.value.address.streetName,
+        cityName: this.selectedProvince.provName,
+        districtName: this.selectedDistrict.distName,
+        wardName: this.selectedWard.wardName,
+      };
+      this.checkOutForm.patchValue({ address: address });
+    }
+
     this.checkOutForm.patchValue({ paymentType: 'CREDIT_CARD' });
     this.checkOutForm.patchValue({ voucher: this.selectedVoucher });
     this.checkOutForm.patchValue({
@@ -223,12 +238,20 @@ export class CheckOutComponent implements OnInit {
         varietyId: this.cartItem[0].varietyId,
         quantity: this.cartItem[0].quantity,
       };
-      this.invoiceService.processBuyNow(data).subscribe({
-        next: (res) => {
-          // window.open(res);
-          window.location.href = res;
-        },
-      });
+      if (this.isLogin)
+        this.invoiceService.processBuyNow(data).subscribe({
+          next: (res) => {
+            // window.open(res);
+            window.location.href = res;
+          },
+        });
+      else
+        this.invoiceService.processBuyNowUnauth(data).subscribe({
+          next: (res) => {
+            // window.open(res);
+            window.location.href = res;
+          },
+        });
     }
   }
 

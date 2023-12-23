@@ -10,7 +10,7 @@
 <div class="container p-4">
   <div class="info d-flex gap-4">
     <p-galleria
-      [value]="product.images"
+      [value]="product?.images"
       [showItemNavigatorsOnHover]="true"
       [showItemNavigators]="true"
       [containerStyle]="{ 'max-width': '640px', 'min-height': '500px' }"
@@ -38,7 +38,7 @@
     <div class="product-info col-6">
       <div class="basic-info ps-4">
         <div class="product-name d-flex">
-          <h1 class="py-2 mb-0">{{ product.name }}</h1>
+          <h1 class="py-2 mb-0">{{ product?.name }}</h1>
         </div>
         <div class="product-rating">
           <p-rating
@@ -51,7 +51,7 @@
         <h5 class="mt-2">{{ attPrice | currency : "VND" }}</h5>
         <div class="size attribute">
           <h5 class="mb-0 mt-1"><b [style.width.px]="80">Brand:</b></h5>
-          <h5 class="mb-0 mt-1">{{ product.brand.name }}</h5>
+          <h5 class="mb-0 mt-1">{{ product?.brand.name }}</h5>
         </div>
 
         <div class="size attribute" *ngIf="listSize.length > 0">
