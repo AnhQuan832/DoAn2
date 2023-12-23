@@ -78,19 +78,22 @@
     <div class="chat-content" id="boxchat">
       <div
         *ngFor="let message of currentUserChat"
-        class="d-flex m-2 mx-4 message"
+        class="d-flex align-items-center m-2 mx-4 message"
         [ngClass]="{ 'sender-message': senderId === message.senderId }"
       >
-        <p-avatar
-          image="{{
+        <img
+          width="40px"
+          height="40px"
+          src="{{
             senderId === message.senderId
-              ? senderAvatar
-              : currentUser.userAvatar
+              ? senderAvatar || '/assets/imgs/no_user.png'
+              : currentUser.userAvatar || '/assets/imgs/no_user.png'
           }}"
           pBadge
           shape="circle"
-          class="d-flex align-items-center"
-        ></p-avatar>
+          onerror="this.onerror=null;this.src='/assets/imgs/no_user.png';"
+          class="d-flex align-items-center rounded-circle"
+        />
         <div class="message-content rounded-3 p-2 m-1 mx-2">
           {{ message.content }}
         </div>

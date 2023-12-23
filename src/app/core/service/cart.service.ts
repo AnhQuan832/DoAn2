@@ -34,19 +34,22 @@ export class CartService {
       );
   }
 
-  getUnauthCart() {
-    return this.http.get(API.CART.END_POINT.GET_UNAUTH_CART).pipe(
-      map((data: any) => {
-        if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
-          return data.data.cartItems;
-        } else {
-          throw new Error(data.meta);
-        }
-      }),
-      catchError((err) => {
-        throw new Error(err);
-      })
-    );
+  getUnauthCart(cartId?) {
+    const params = cartId ? { cartId: cartId } : null;
+    return this.http
+      .get(API.CART.END_POINT.GET_UNAUTH_CART, { params: params })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.cart;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
   }
 
   addToCart(quantity, varietyId, totalItemPrice?) {
@@ -91,5 +94,26 @@ export class CartService {
 
   getShippingFee(data) {
     return this.shippingService.getShippingFee(data);
+  }
+
+  addToCartUnAuth(cartId, quantity, varietyId, totalItemPrice?) {
+    return this.http
+      .post(API.CART.END_POINT.ADD_TO_CART_UNAUTH + `/${cartId}`, {
+        quantity,
+        totalItemPrice,
+        varietyId,
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return true;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
   }
 }

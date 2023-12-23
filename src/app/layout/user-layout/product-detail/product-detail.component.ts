@@ -177,12 +177,29 @@ export class ProductDetailComponent implements OnInit {
           },
         });
     } else {
-      let localCart = this.storageService.getItemLocal('localCart');
-      if (!localCart) {
-        localCart = [];
-      }
-      localCart.push(data);
-      this.storageService.setItemLocal('localCart', localCart);
+      const cartId = this.storageService.getItemLocal('cart').cartId;
+
+      this.cartService
+        .addToCartUnAuth(
+          cartId,
+          this.numberOfProduct,
+          this.selectedVariety.varietyId
+        )
+        .subscribe({
+          next: (res) =>
+            this.messageSerice.add({
+              key: 'toast',
+              severity: 'success',
+              detail: 'Added to cart',
+            }),
+          error: () => {
+            this.messageSerice.add({
+              key: 'toast',
+              severity: 'error',
+              detail: 'Can not add to cart',
+            });
+          },
+        });
     }
   }
 

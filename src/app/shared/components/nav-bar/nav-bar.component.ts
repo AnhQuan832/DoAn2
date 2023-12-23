@@ -1,5 +1,5 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { debounce } from 'rxjs';
@@ -12,8 +12,8 @@ import { Location } from '@angular/common';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.less'],
 })
-export class NavBarComponent implements AfterViewInit {
-  isLoggin = true;
+export class NavBarComponent implements OnInit, AfterViewInit {
+  isLoggin;
   keySearch;
   searchRes;
   isShowSearch = true;
@@ -50,6 +50,10 @@ export class NavBarComponent implements AfterViewInit {
     private storageService: StorageService,
     private location: Location
   ) {}
+  ngOnInit(): void {
+    const info = this.storageService.getItemLocal('userInfo');
+    this.isLoggin = info.userId ? true : false;
+  }
   ngAfterViewInit(): void {
     this.setActiveNavItem();
   }
@@ -86,7 +90,6 @@ export class NavBarComponent implements AfterViewInit {
             items: groupItems,
           };
         });
-        console.log(this.searchRes);
       },
     });
   }
@@ -117,5 +120,9 @@ export class NavBarComponent implements AfterViewInit {
     });
 
     actived.classList.add('active');
+  }
+
+  toLoginPage() {
+    this.router.navigate(['/auth/login']);
   }
 }

@@ -225,7 +225,7 @@
       [disabled]="
         !checkOutForm.value.phoneNumber ||
         !checkOutForm.value.recipientName ||
-        !selectedAdd
+        (!selectedAdd && isLogin)
       "
       (click)="onCheckOut()"
     >

@@ -26,7 +26,19 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.isLogin = this.storageService.getDataFromCookie('jwtToken');
     if (this.isLogin) this.getCart();
-    else this.router.navigate(['/auth/login']);
+    else {
+      const cart = this.storageService.getItemLocal('cart');
+      this.cartService.getUnauthCart(cart?.cartId).subscribe({
+        next: (res) => {
+          this.storageService.setItemLocal('cart', res);
+          this.cart = res.cartItemList;
+          this.originalData = _.cloneDeep(res.cartItemList);
+          this.selectedProducts = this.originalData.filter(
+            (item) => item.isSelected
+          );
+        },
+      });
+    }
   }
 
   getCart() {
