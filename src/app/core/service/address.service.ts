@@ -85,7 +85,7 @@ export class AddressService {
       .pipe(
         map((data: any) => {
           if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
-            return data.data;
+            return data.data.address;
           } else {
             throw new Error(data.meta);
           }

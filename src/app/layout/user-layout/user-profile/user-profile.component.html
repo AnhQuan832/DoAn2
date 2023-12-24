@@ -8,7 +8,7 @@
   <p style="opacity: 0.7">Loading</p>
 </div>
 
-<div class="container-fluid mt-4" *ngIf="!isLoading">
+<div class="container-fluid mt-4" *ngIf="!isLoading" style="min-height: 63vh">
   <div class="row">
     <!-- card-info -->
     <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
@@ -86,7 +86,7 @@
                   minlength="10"
                   maxlength="11"
                   class="w-100 rounded-2 p-2 mb-3"
-                  placeholder="Etner your Phone number"
+                  placeholder="Enter your Phone number"
                   formControlName="userPhoneNumber"
                 />
               </div>
@@ -242,7 +242,10 @@
                     </td>
                     <td>
                       <p-button
-                        *ngIf="invoice.status === 'PENDING'"
+                        *ngIf="
+                          invoice.status === 'PENDING' ||
+                          invoice.status === 'CANCEL'
+                        "
                         styleClass="p-button-secondary"
                         label="Contact"
                         (onClick)="$event.stopPropagation(); contactAdmin()"

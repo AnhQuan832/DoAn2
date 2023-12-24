@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AddressService } from 'src/app/core/service/address.service';
 import { CartService } from 'src/app/core/service/cart.service';
 import { InvoiceService } from 'src/app/core/service/invoice.service';
@@ -25,7 +26,16 @@ export class CheckOutComponent implements OnInit {
     },
   ];
 
-  paymentType = ['CREDIT_CARD'];
+  paymentType = [
+    {
+      id: 'CREDIT_CARD',
+      name: 'Credit Card',
+    },
+    {
+      id: 'COD',
+      name: 'COD',
+    },
+  ];
   listProvince: any[] = [];
   listDistrict: any[] = [];
   listWard: any[] = [];
@@ -50,26 +60,10 @@ export class CheckOutComponent implements OnInit {
     private storageSerive: StorageService,
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
-    private router: Router
+    private router: Router,
+    private msgService: MessageService
   ) {}
   ngOnInit(): void {
-    this.isLogin = this.storageSerive.getItemLocal('userInfo');
-    if (this.isLogin) {
-      this.invoiceService.getVoucher().subscribe({
-        next: (res) => {
-          this.voucherOption = res;
-        },
-      });
-      this.getListAddress();
-    }
-    this.bindProvinces();
-    this.cartItem = this.storageSerive.getItemLocal('cart');
-    this.totalPrice = this.cartItem.reduce((acc, currentItem) => {
-      return (
-        acc +
-        (currentItem.totalItemPrice || currentItem.quantity * currentItem.price)
-      );
-    }, 0);
     this.checkOutForm = this.fb.group({
       recipientName: this.fb.control('', [Validators.required]),
       phoneNumber: this.fb.control('', [Validators.required]),
@@ -86,6 +80,27 @@ export class CheckOutComponent implements OnInit {
         wardName: this.fb.control('', [Validators.required]),
       }),
     });
+    this.isLogin = this.storageSerive.getItemLocal('userInfo');
+    if (this.isLogin) {
+      this.invoiceService.getVoucher().subscribe({
+        next: (res) => {
+          this.voucherOption = res;
+        },
+      });
+      this.getListAddress();
+      const info = this.storageSerive.getItemLocal('userInfo');
+
+      this.checkOutForm.patchValue({ recipientName: info.userFullName });
+      this.checkOutForm.patchValue({ phoneNumber: info.userPhoneNumber });
+    }
+    this.bindProvinces();
+    this.cartItem = this.storageSerive.getItemLocal('cart');
+    this.totalPrice = this.cartItem.reduce((acc, currentItem) => {
+      return (
+        acc +
+        (currentItem.totalItemPrice || currentItem.quantity * currentItem.price)
+      );
+    }, 0);
   }
 
   getListAddress() {
@@ -210,7 +225,6 @@ export class CheckOutComponent implements OnInit {
       this.checkOutForm.patchValue({ address: address });
     }
 
-    this.checkOutForm.patchValue({ paymentType: 'CREDIT_CARD' });
     this.checkOutForm.patchValue({ voucher: this.selectedVoucher });
     this.checkOutForm.patchValue({
       returnUrl: 'http://localhost:4200/user/cart',
@@ -229,7 +243,17 @@ export class CheckOutComponent implements OnInit {
       this.invoiceService.processPayment(data).subscribe({
         next: (res) => {
           // window.open(res);
-          window.location.href = res;
+          if (res) window.location.href = res;
+          else {
+            this.msgService.add({
+              key: 'toast',
+              severity: 'success',
+              detail: 'Your order has been sent',
+            });
+            setTimeout(() => {
+              this.router.navigate(['/user/profile']);
+            }, 1000);
+          }
         },
       });
     } else {
@@ -242,14 +266,34 @@ export class CheckOutComponent implements OnInit {
         this.invoiceService.processBuyNow(data).subscribe({
           next: (res) => {
             // window.open(res);
-            window.location.href = res;
+            if (res) window.location.href = res;
+            else {
+              this.msgService.add({
+                key: 'toast',
+                severity: 'success',
+                detail: 'Your order has been sent',
+              });
+              setTimeout(() => {
+                this.router.navigate(['/user/profile']);
+              }, 1000);
+            }
           },
         });
       else
         this.invoiceService.processBuyNowUnauth(data).subscribe({
           next: (res) => {
             // window.open(res);
-            window.location.href = res;
+            if (res) window.location.href = res;
+            else {
+              this.msgService.add({
+                key: 'toast',
+                severity: 'success',
+                detail: 'Your order has been sent',
+              });
+              setTimeout(() => {
+                this.router.navigate(['/user/profile']);
+              }, 1000);
+            }
           },
         });
     }
