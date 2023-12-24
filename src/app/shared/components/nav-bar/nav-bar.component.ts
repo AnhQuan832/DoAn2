@@ -6,11 +6,13 @@ import { debounce } from 'rxjs';
 import { ProductService } from 'src/app/core/service/product.service';
 import { StorageService } from 'src/app/core/service/storage.service';
 import { Location } from '@angular/common';
+import { LoginComponent } from 'src/app/layout/auth-layout/login/login.component';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.less'],
+  providers: [LoginComponent],
 })
 export class NavBarComponent implements OnInit, AfterViewInit {
   isLoggin;
@@ -38,6 +40,7 @@ export class NavBarComponent implements OnInit, AfterViewInit {
       icon: 'pi pi-sign-out',
       command: () => {
         localStorage.clear();
+        this.loginCpn.signOut();
         this.router.navigate(['/auth/login']);
       },
     },
@@ -48,7 +51,8 @@ export class NavBarComponent implements OnInit, AfterViewInit {
     private socialLoginService: SocialAuthService,
     private productSerivce: ProductService,
     private storageService: StorageService,
-    private location: Location
+    private location: Location,
+    private loginCpn: LoginComponent
   ) {}
   ngOnInit(): void {
     const info = this.storageService.getItemLocal('userInfo');
