@@ -982,3 +982,14 @@ button {
     padding-block-start: 40px;
   }
 }
+
+:host ::ng-deep {
+  display: block;
+  .p-divider .p-divider-content {
+    background-color: #fee1be;
+    color: #7a3d26;
+  }
+  .p-divider-solid.p-divider-horizontal:before {
+    border-color: #7a3d26;
+  }
+}

@@ -18,6 +18,10 @@ import { StorageService } from 'src/app/core/service/storage.service';
 export class ForgotPasswordComponent {
   isSubmitted = false;
   msgError: string;
+  email;
+  otp;
+  newPass;
+  valid = false;
   private accessToken = '';
   constructor(
     private builder: FormBuilder,
@@ -26,33 +30,29 @@ export class ForgotPasswordComponent {
     private storageService: StorageService
   ) {}
 
+  validateForm = this.builder.group({
+    emailAddress: this.builder.control(null),
+    otp: this.builder.control('', Validators.required),
+    newPassword: this.builder.control('', Validators.required),
+  });
   loginForm = this.builder.group({
     userEmail: this.builder.control('', [Validators.required]),
-    userPassword: this.builder.control('', [Validators.required]),
   });
   ngOnInit(): void {}
 
-  login() {
+  sendOTP() {
     this.isSubmitted = true;
     if (this.loginForm.valid)
-      this.authService
-        .login(
-          this.loginForm.value.userEmail,
-          this.loginForm.value.userPassword
-        )
-        .subscribe({
-          next: (res) => {
-            if (typeof res === 'string') {
-              this.msgError = res;
-              return;
-            }
-            const { jwtToken, ...userInfo } = res;
-            this.storageService.setItemLocal('userInfo', userInfo);
-            this.storageService.setTimeResetTokenCookie('jwtToken', jwtToken);
-            this.router.navigate(['/user/home']);
-          },
-          error: (err) => console.log(err),
-        });
+      this.authService.sendOtpReset(this.loginForm.value.userEmail).subscribe({
+        next: (res) => {
+          this.email = res;
+          this.isSubmitted = false;
+          this.validateForm.patchValue({
+            emailAddress: this.loginForm.value.userEmail,
+          });
+        },
+        error: (err) => console.log(err),
+      });
   }
 
   clearErrorNotification() {
@@ -70,5 +70,15 @@ export class ForgotPasswordComponent {
         return null;
       }
     };
+  }
+
+  validate() {
+    this.isSubmitted = true;
+
+    this.authService.validateResset(this.validateForm.value).subscribe({
+      next: (res) => {
+        this.valid = true;
+      },
+    });
   }
 }
