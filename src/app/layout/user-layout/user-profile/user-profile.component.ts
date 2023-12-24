@@ -8,6 +8,7 @@ import { RatingComponent } from 'src/app/shared/components/rating/rating.compone
 import { ChatComponent } from '../chat/chat.component';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { StorageService } from 'src/app/core/service/storage.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -48,7 +49,8 @@ export class UserProfileComponent implements OnInit {
     private dialogSerivce: DialogService,
     private chat: ChatComponent,
     private router: Router,
-    private msgService: MessageService
+    private msgService: MessageService,
+    private storageSerivce: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -62,8 +64,9 @@ export class UserProfileComponent implements OnInit {
       userAvatar: [null, Validators.required],
       addressList: this.formBuilder.group({}),
     });
-
-    this.getData();
+    const info = this.storageSerivce.getItemLocal('userInfo');
+    if (info?.userId) this.getData();
+    else this.router.navigate(['/user/home']);
     this.formGroup.get('userEmail').disable();
     this.formGroup.get('memberPoint').disable();
   }

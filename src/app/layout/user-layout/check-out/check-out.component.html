@@ -1,4 +1,8 @@
-<div class="check-out d-flex p-4 gap-4" [formGroup]="checkOutForm">
+<div
+  class="check-out d-flex p-4 gap-4"
+  [formGroup]="checkOutForm"
+  style="min-height: 65vh"
+>
   <div class="col-7 p-4 card">
     <h3>Pescue Shop</h3>
     <div class="personal">
@@ -16,6 +20,16 @@
           class="inputtext w-100 ps-2 form-control"
           formControlName="phoneNumber"
           pInputText
+        />
+      </span>
+      <span class="mt-2">
+        <h6 class="mt-1">Payment Type</h6>
+        <p-dropdown
+          [options]="paymentType"
+          optionLabel="name"
+          optionValue="id"
+          class="w-100"
+          formControlName="paymentType"
         />
       </span>
     </div>
@@ -233,3 +247,5 @@
     </button>
   </div>
 </div>
+
+<p-toast key="toast"></p-toast>
