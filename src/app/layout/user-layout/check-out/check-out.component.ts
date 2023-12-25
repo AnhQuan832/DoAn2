@@ -67,7 +67,7 @@ export class CheckOutComponent implements OnInit {
     this.checkOutForm = this.fb.group({
       recipientName: this.fb.control('', [Validators.required]),
       phoneNumber: this.fb.control('', [Validators.required]),
-      paymentType: this.fb.control(''),
+      paymentType: this.fb.control('CREDIT_CARD'),
       returnUrl: this.fb.control(''),
       voucher: this.fb.control(''),
       shippingFee: this.fb.control(''),
@@ -227,7 +227,7 @@ export class CheckOutComponent implements OnInit {
 
     this.checkOutForm.patchValue({ voucher: this.selectedVoucher });
     this.checkOutForm.patchValue({
-      returnUrl: 'http://localhost:4200/user/cart',
+      returnUrl: 'http://localhost:4200/user/complete-checkout',
     });
 
     this.checkOutForm.patchValue({
@@ -243,8 +243,10 @@ export class CheckOutComponent implements OnInit {
       this.invoiceService.processPayment(data).subscribe({
         next: (res) => {
           // window.open(res);
-          if (res) window.location.href = res;
-          else {
+          if (res) {
+            window.location.href = res.paymentUrl;
+            this.storageSerive.setItemLocal('sucInvoice', res.invoiceId);
+          } else {
             this.msgService.add({
               key: 'toast',
               severity: 'success',
@@ -266,8 +268,10 @@ export class CheckOutComponent implements OnInit {
         this.invoiceService.processBuyNow(data).subscribe({
           next: (res) => {
             // window.open(res);
-            if (res) window.location.href = res;
-            else {
+            if (res) {
+              window.location.href = res.paymentUrl;
+              this.storageSerive.setItemLocal('sucInvoice', res.invoiceId);
+            } else {
               this.msgService.add({
                 key: 'toast',
                 severity: 'success',
@@ -283,8 +287,10 @@ export class CheckOutComponent implements OnInit {
         this.invoiceService.processBuyNowUnauth(data).subscribe({
           next: (res) => {
             // window.open(res);
-            if (res) window.location.href = res;
-            else {
+            if (res) {
+              window.location.href = res.paymentUrl;
+              this.storageSerive.setItemLocal('sucInvoice', res.invoiceId);
+            } else {
               this.msgService.add({
                 key: 'toast',
                 severity: 'success',

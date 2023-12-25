@@ -121,6 +121,7 @@ export class UserProfileComponent implements OnInit {
   getSeverity(status: string) {
     switch (status) {
       case 'COMPLETED':
+      case 'PAID':
         return 'success';
       case 'PENDING':
         return 'info';

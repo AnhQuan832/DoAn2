@@ -138,4 +138,24 @@ export class InvoiceService {
         })
       );
   }
+
+  updateStatus(params) {
+    return this.http
+      .put(API.INVOICE.END_POINT.UPDATE_INVOICE, null, {
+        headers: this.storageService.getHttpHeader(),
+        params: params,
+      })
+      .pipe(
+        map((data: any) => {
+          if (data.meta.statusCode === API.CART.STATUS.GET_PRODUCT_SUCCESS) {
+            return data.data.invoiceItemList;
+          } else {
+            throw new Error(data.meta);
+          }
+        }),
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
+  }
 }
