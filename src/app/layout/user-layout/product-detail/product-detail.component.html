@@ -3,11 +3,11 @@
   class="loading w-100 h-100 position-absolute d-flex d-flex justify-content-center align-items-center flex-column gap-2 bg-body rounded-3 z-3"
 >
   <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
+    <span class="sr-only"></span>
   </div>
   <p style="opacity: 0.7">Loading</p>
 </div>
-<div class="container p-4">
+<div class="container p-4" *ngIf="!isLoading">
   <div class="info d-flex gap-4">
     <p-galleria
       [value]="product?.images"

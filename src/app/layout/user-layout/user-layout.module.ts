@@ -33,6 +33,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { CalendarModule } from 'primeng/calendar';
 import { InvoiceHistoryComponent } from './invoice-history/invoice-history.component';
 import { TabViewModule } from 'primeng/tabview';
+import { CompletCheckoutComponent } from './complet-checkout/complet-checkout.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { TabViewModule } from 'primeng/tabview';
     CheckOutComponent,
     ChatComponent,
     InvoiceHistoryComponent,
+    CompletCheckoutComponent,
   ],
   imports: [
     CommonModule,

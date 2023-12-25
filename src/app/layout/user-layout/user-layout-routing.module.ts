@@ -9,6 +9,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { ChatComponent } from './chat/chat.component';
 import { InvoiceHistoryComponent } from './invoice-history/invoice-history.component';
+import { CompletCheckoutComponent } from './complet-checkout/complet-checkout.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'invoice-history',
         component: InvoiceHistoryComponent,
+      },
+      {
+        path: 'complete-checkout',
+        component: CompletCheckoutComponent,
       },
     ],
   },

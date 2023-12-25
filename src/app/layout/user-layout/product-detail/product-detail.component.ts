@@ -54,6 +54,7 @@ export class ProductDetailComponent implements OnInit {
       });
     this.product = this.storageService.getItemLocal('currentProduct');
     this.listVarieties = this.product?.varieties;
+    this.isLoading = true;
     this.productSerivce.getProductDetail(this.product.productId).subscribe({
       next: (res) => {
         this.product = res;
@@ -65,6 +66,7 @@ export class ProductDetailComponent implements OnInit {
             this.listSize.push({ ...item, active: true });
           else this.listColor.push({ ...item, active: true });
         });
+        this.isLoading = false;
       },
     });
     if (!this.isLogin)

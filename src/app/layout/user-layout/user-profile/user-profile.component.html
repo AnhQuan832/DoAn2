@@ -228,15 +228,7 @@
                     </td>
                     <td>
                       <p-tag
-                        [value]="
-                          invoice.status === 'PENDING'
-                            ? 'Pending'
-                            : invoice.status === 'COMPLETED'
-                            ? 'Completed'
-                            : invoice.status === 'RETURN'
-                            ? 'Return'
-                            : 'Cancel'
-                        "
+                        [value]="invoice.status"
                         [severity]="getSeverity(invoice.status)"
                       ></p-tag>
                     </td>
