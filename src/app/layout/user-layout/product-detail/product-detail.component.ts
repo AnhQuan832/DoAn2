@@ -28,7 +28,8 @@ export class ProductDetailComponent implements OnInit {
   isActiveSize = false;
   isLogin: boolean = false;
   isDisableBuy: boolean = false;
-
+  mostProd;
+  mostBuy;
   constructor(
     private storageService: StorageService,
     private router: Router,
@@ -55,6 +56,12 @@ export class ProductDetailComponent implements OnInit {
     this.product = this.storageService.getItemLocal('currentProduct');
     this.listVarieties = this.product?.varieties;
     this.isLoading = true;
+    this.productSerivce.getProdMost(7).subscribe({
+      next: (res) => (this.mostProd = res),
+    });
+    this.productSerivce.getProdMostBuy(7).subscribe((data) => {
+      this.mostBuy = data;
+    });
     this.productSerivce.getProductDetail(this.product.productId).subscribe({
       next: (res) => {
         this.product = res;
@@ -220,5 +227,11 @@ export class ProductDetailComponent implements OnInit {
     };
     this.storageService.setItemLocal('cart', [data]);
     this.router.navigate(['/user/check-out']);
+  }
+
+  onProdClick(item) {
+    this.storageService.setItemLocal('currentProduct', item);
+    this.router.navigate([`/user/product-detail/${item.productId}`]);
+    location.href = `https://pescue-shop.vercel.app/user/product-detail/${item.productId}`;
   }
 }

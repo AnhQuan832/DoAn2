@@ -31,6 +31,7 @@ export const API = {
       BRAND: API_URL + 'product/brand',
       REVIEW: API_URL + 'rating',
       MOST_VIEW: API_URL + 'product/most-views',
+      MOST_BUY: API_URL + 'product/most-buy',
     },
     STATUS: {
       GET_PRODUCT_SUCCESS: '0_2_s',

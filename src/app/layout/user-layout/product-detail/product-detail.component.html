@@ -156,6 +156,97 @@
       </div>
     </div>
   </div>
+
+  <section class="section my-4 product" id="shop" aria-label="product">
+    <div class="container mx-auto">
+      <h2 class="h2 section-title">Best Seller</h2>
+
+      <ul class="grid-list d-flex gap-4">
+        <li
+          *ngFor="let item of mostBuy"
+          style="cursor: pointer"
+          (click)="onProdClick(item)"
+        >
+          <div class="product-card">
+            <div
+              class="card-banner img-holder"
+              style="--width: 360; --height: 360"
+            >
+              <img
+                width="120px"
+                [src]="item.images[0]"
+                height="120px"
+                loading="lazy"
+                alt="Commodo leo sed porta"
+                class="img-cover default"
+              />
+            </div>
+
+            <div class="card-content">
+              <!-- <div class="wrapper">
+                  <div class="rating-wrapper"></div>
+
+                  <span class="span">(1)</span>
+                </div> -->
+
+              <h5>
+                {{ item.name }}
+              </h5>
+
+              <p class="card-price" value="15">
+                {{ item.price | currency : "VND" }}
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="section my-4 product" id="shop" aria-label="product">
+    <div class="container mx-auto">
+      <h2 class="h2 section-title">Most View</h2>
+
+      <ul class="grid-list d-flex gap-4">
+        <li
+          *ngFor="let item of mostProd"
+          style="cursor: pointer"
+          (click)="onProdClick(item)"
+        >
+          <div class="product-card">
+            <div
+              class="card-banner img-holder"
+              style="--width: 360; --height: 360"
+            >
+              <img
+                width="120px"
+                [src]="item.images[0]"
+                height="120px"
+                loading="lazy"
+                alt="Commodo leo sed porta"
+                class="img-cover default"
+              />
+            </div>
+
+            <div class="card-content">
+              <!-- <div class="wrapper">
+                  <div class="rating-wrapper"></div>
+
+                  <span class="span">(1)</span>
+                </div> -->
+
+              <h5>
+                {{ item.name }}
+              </h5>
+
+              <p class="card-price" value="15">
+                {{ item.price | currency : "VND" }}
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
 </div>
 
 <p-toast key="toast"></p-toast>
