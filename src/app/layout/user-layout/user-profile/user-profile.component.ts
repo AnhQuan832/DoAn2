@@ -20,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   user: any;
   isLoading: boolean = true;
   ref: DynamicDialogRef;
+  isBought = false;
   protected genderOptions = [
     {
       id: 'FEMALE',
@@ -99,6 +100,7 @@ export class UserProfileComponent implements OnInit {
         this.cart = res;
       },
     });
+    this.isBought = row.status === 'COMPLETED';
   }
 
   addRating(row) {
