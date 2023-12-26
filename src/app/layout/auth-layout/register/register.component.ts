@@ -71,16 +71,14 @@ export class RegisterComponent {
             return;
           }
           this.verifyEmail = true;
-          this.authService
-            .sendOtpRes(this.registerForm.value.userEmail)
-            .subscribe({
-              next: (res) => {},
-            });
         },
         error: (err) => console.log(err),
       });
   }
 
+  sendOtp() {
+    this.authService.sendOtpRes(this.registerForm.value.userEmail).subscribe();
+  }
   clearErrorNotification() {
     this.isSubmitted = false;
     this.msgError = '';

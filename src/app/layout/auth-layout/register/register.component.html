@@ -157,6 +157,13 @@
         formControlName="otp"
         (focus)="clearErrorNotification()"
       />
+      <p
+        class="text-end text-primary"
+        style="cursor: pointer"
+        (click)="sendOtp()"
+      >
+        Resend
+      </p>
       <div *ngIf="isSubmitted">
         <small
           class="text-danger"
@@ -166,7 +173,7 @@
         <small
           class="text-danger"
           *ngIf="registerForm.get('userPhoneNumber')?.hasError('required')"
-          >Phone number is required</small
+          >OTP number is required</small
         >
         <small class="text-danger text-center" *ngIf="msgError">{{
           msgError
