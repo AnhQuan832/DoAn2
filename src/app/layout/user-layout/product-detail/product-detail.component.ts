@@ -126,9 +126,15 @@ export class ProductDetailComponent implements OnInit {
           item[1].attributeId === this.selectedColor.attributeId
         );
       else if (this.selectedSize && !this.selectedColor)
-        return item[0].attributeId === this.selectedSize.attributeId;
+        return (
+          item?.varietyAttributes[0]?.attributeId ===
+          this.selectedSize.attributeId
+        );
       else if (!this.selectedSize && this.selectedColor)
-        return item[1].attributeId === this.selectedColor.attributeId;
+        return (
+          item.varietyAttributes[0].attributeId ===
+          this.selectedColor.attributeId
+        );
       return false;
     });
     this.attPrice = this.selectedVariety
