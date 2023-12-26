@@ -65,10 +65,17 @@
               ></p-tableCheckbox>
             </td>
 
-            <td style="min-width: 10rem">
+            <td style="min-width: 10rem" class="d-flex align-items-center">
               <span class="p-column-title">Name</span>
               <img [src]="product?.image" width="100" class="shadow-4" />
-              {{ product.name }}
+              <span class="d-flex flex-column ms-4">
+                <h5 class="mb-0" style="width: fit-content">
+                  {{ product.name }}
+                </h5>
+                <small style="font-size: 12px">{{
+                  product.listAttributeName.join(", ")
+                }}</small>
+              </span>
             </td>
 
             <td style="width: 14%; min-width: 8rem">
