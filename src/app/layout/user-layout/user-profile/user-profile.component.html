@@ -18,8 +18,11 @@
             class="card-profile-image rounded-circle d-flex justify-content-center"
           >
             <img
+              width="120px"
+              height="120px"
               id="imgInput"
               src="{{ formGroup.value.userAvatar }}"
+              onerror="this.onerror=null;this.src='/assets/imgs/no_user.png';"
               class="rounded-circle"
             />
           </div>
