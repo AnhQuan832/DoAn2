@@ -113,9 +113,13 @@ body {
   .p-divider.p-divider-horizontal {
     margin: 0;
   }
-  .p-divider {
+  .p-divider-content {
+    background: #fee1be !important;
+  }
+  :host::ng-deep .p-divider {
     display: flex;
     align-items: center;
+
     .p-divider-vertical.p-divider-center {
       height: 1rem !important;
     }

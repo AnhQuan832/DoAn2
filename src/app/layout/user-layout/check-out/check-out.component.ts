@@ -68,6 +68,7 @@ export class CheckOutComponent implements OnInit {
       recipientName: this.fb.control('', [Validators.required]),
       phoneNumber: this.fb.control('', [Validators.required]),
       paymentType: this.fb.control('CREDIT_CARD'),
+      userEmail: this.fb.control('', Validators.required),
       returnUrl: this.fb.control(''),
       voucher: this.fb.control(''),
       shippingFee: this.fb.control(''),
@@ -92,6 +93,7 @@ export class CheckOutComponent implements OnInit {
 
       this.checkOutForm.patchValue({ recipientName: info.userFullName });
       this.checkOutForm.patchValue({ phoneNumber: info.userPhoneNumber });
+      this.checkOutForm.patchValue({ userEmail: info.userEmail });
     }
     this.bindProvinces();
     this.cartItem = this.storageSerive.getItemLocal('cart');
