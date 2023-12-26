@@ -227,7 +227,7 @@ export class CheckOutComponent implements OnInit {
 
     this.checkOutForm.patchValue({ voucher: this.selectedVoucher });
     this.checkOutForm.patchValue({
-      returnUrl: 'http://localhost:4200/user/complete-checkout',
+      returnUrl: 'https://pescue-shop.vercel.app/user/complete-checkout',
     });
 
     this.checkOutForm.patchValue({
